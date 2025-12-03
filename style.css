@@ -751,3 +751,336 @@ body.dark-mode .virtual-keyboard {
     transform: translateY(0);
     background: #e2e8f0;
 }
+
+/* ==================== THEME SYSTEM ==================== */
+.theme-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: var(--spacing-sm);
+}
+
+.theme-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: var(--spacing-sm);
+    border: 2px solid transparent;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+.theme-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.theme-btn.active {
+    border-color: var(--primary);
+    background: rgba(102, 126, 234, 0.1);
+}
+
+.theme-preview {
+    width: 100%;
+    height: 60px;
+    border-radius: var(--radius-sm);
+    margin-bottom: var(--spacing-xs);
+}
+
+/* ==================== COMMAND PALETTE ==================== */
+.command-palette {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 3000;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding-top: 20vh;
+}
+
+.command-palette-backdrop {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(5px);
+}
+
+.command-palette-content {
+    position: relative;
+    width: 90%;
+    max-width: 600px;
+    max-height: 60vh;
+    display: flex;
+    flex-direction: column;
+    animation: slideUp 0.2s ease;
+}
+
+.command-search {
+    width: 100%;
+    padding: var(--spacing-md);
+    border: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    background: transparent;
+    font-size: 1.2rem;
+    color: var(--text-primary);
+    outline: none;
+}
+
+.command-results {
+    overflow-y: auto;
+    max-height: 400px;
+    padding: var(--spacing-sm);
+}
+
+.command-item {
+    display: flex;
+    align-items: center;
+    padding: var(--spacing-sm) var(--spacing-md);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: all 0.1s;
+    margin-bottom: var(--spacing-xs);
+}
+
+.command-item:hover,
+.command-item.selected {
+    background: rgba(102, 126, 234, 0.2);
+}
+
+.command-icon {
+    font-size: 1.5rem;
+    margin-right: var(--spacing-md);
+}
+
+.command-text {
+    flex: 1;
+}
+
+.command-name {
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.command-type {
+    font-size: 0.8rem;
+    color: var(--text-light);
+    text-transform: uppercase;
+}
+
+.command-empty {
+    text-align: center;
+    padding: var(--spacing-xl);
+    color: var(--text-light);
+}
+
+/* ==================== KEYBOARD SHORTCUTS MODAL ==================== */
+.shortcuts-list {
+    max-height: 60vh;
+    overflow-y: auto;
+}
+
+.shortcuts-list h3 {
+    margin-top: var(--spacing-lg);
+    margin-bottom: var(--spacing-md);
+    color: var(--text-primary);
+    font-size: 1.2rem;
+}
+
+.shortcuts-list h3:first-child {
+    margin-top: 0;
+}
+
+.shortcuts-group {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+}
+
+.shortcut-item {
+    display: flex;
+    align-items: center;
+    padding: var(--spacing-md);
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: var(--radius-sm);
+}
+
+.shortcut-keys {
+    min-width: 150px;
+    display: flex;
+    gap: 5px;
+    align-items: center;
+}
+
+kbd {
+    display: inline-block;
+    padding: 0.25rem 0.5rem;
+    font-family: 'Monaco', 'Courier New', monospace;
+    font-size: 0.85rem;
+    color: var(--text-primary);
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+    box-shadow: 0 2px 0 rgba(0, 0, 0, 0.2);
+}
+
+.shortcut-desc {
+    flex: 1;
+}
+
+.shortcut-desc strong {
+    display: block;
+    margin-bottom: 0.25rem;
+    color: var(--text-primary);
+}
+
+.shortcut-desc p {
+    margin: 0;
+    font-size: 0.9rem;
+    color: var(--text-light);
+}
+
+/* ==================== HAPTIC FEEDBACK SETTINGS ==================== */
+.haptic-strength-options {
+    display: flex;
+    gap: var(--spacing-xs);
+}
+
+.haptic-strength-btn {
+    flex: 1;
+    padding: var(--spacing-sm);
+    border: 1px solid var(--glass-border);
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    color: var(--text-primary);
+    transition: all var(--transition-fast);
+}
+
+.haptic-strength-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.haptic-strength-btn.active {
+    background: var(--primary);
+    color: white;
+    border-color: transparent;
+}
+
+.test-btn {
+    flex: 1;
+    padding: var(--spacing-sm) var(--spacing-md);
+    border: 1px solid var(--glass-border);
+    background: rgba(102, 126, 234, 0.2);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    color: var(--text-primary);
+    font-weight: 600;
+    transition: all var(--transition-fast);
+}
+
+.test-btn:hover {
+    background: rgba(102, 126, 234, 0.3);
+}
+
+.test-btn:active {
+    transform: scale(0.95);
+}
+
+/* ==================== QUICK ACCESS BAR ==================== */
+.quick-access {
+    position: fixed;
+    bottom: var(--spacing-lg);
+    right: var(--spacing-lg);
+    z-index: 2000;
+}
+
+.quick-access-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.3);
+    z-index: -1;
+}
+
+.quick-access-menu {
+    position: absolute;
+    bottom: 80px;
+    right: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+    animation: fadeInUp 0.2s ease;
+}
+
+.quick-action {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    padding: var(--spacing-sm) var(--spacing-md);
+    border: 1px solid var(--glass-border);
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all var(--transition-fast);
+}
+
+.quick-action:hover {
+    transform: translateX(-4px);
+    background: rgba(255, 255, 255, 0.25);
+}
+
+.quick-action span:first-child {
+    font-size: 1.5rem;
+}
+
+.quick-label {
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.quick-access-fab {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    transition: all var(--transition-fast);
+}
+
+.quick-access-fab:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 30px rgba(102, 126, 234, 0.4);
+}
+
+.quick-access-fab:active {
+    transform: scale(0.95);
+}
+
+@media (max-width: 768px) {
+    .quick-access {
+        bottom: var(--spacing-md);
+        right: var(--spacing-md);
+    }
+
+    .quick-access-fab {
+        width: 50px;
+        height: 50px;
+        font-size: 1.5rem;
+    }
+
+    .command-palette-content {
+        width: 95%;
+    }
+}

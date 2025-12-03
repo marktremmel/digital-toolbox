@@ -21,6 +21,11 @@ function initializeApp() {
     initializeLangToggle();
     initUISettings(); // Initialize UI Settings
     initializeSettingsToggle(); // Wire up button
+    initThemeSystem(); // Theme system
+    initHapticFeedback(); // Haptic feedback
+    initKeyboardShortcuts(); // Keyboard shortcuts
+    initCommandPalette(); // Command palette
+    initQuickAccess(); // Quick access bar
     registerServiceWorker();
 
     // Update date every minute

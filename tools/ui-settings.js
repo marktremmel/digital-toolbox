@@ -34,6 +34,11 @@ function getSettingsInterface() {
         <h2>⚙️ Settings & Accessibility</h2>
         
         <div class="settings-section">
+            <h3>🎨 Theme</h3>
+            ${getThemeSelector()}
+        </div>
+        
+        <div class="settings-section">
             <h3>🎨 Background</h3>
             <div class="bg-options">
                 <button onclick="setBackground('wave')" class="bg-btn ${uiState.background === 'wave' ? 'active' : ''}">
@@ -71,6 +76,8 @@ function getSettingsInterface() {
                 </label>
             </div>
         </div>
+        
+        ${getHapticSettingsUI()}
     `;
 }
 

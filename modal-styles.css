@@ -1,0 +1,90 @@
+/* Additional Modal Improvements for Better Visibility */
+#modal-body h2 {
+    color: #ffffff;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    margin-bottom: var(--spacing-lg);
+}
+
+#modal-body h3,
+#modal-body h4 {
+    color: #f0f0f0;
+    margin-top: var(--spacing-md);
+    margin-bottom: var(--spacing-sm);
+}
+
+#modal-body p,
+#modal-body label,
+#modal-body span {
+    color: #e0e0e0;
+}
+
+#modal-body input,
+#modal-body button,
+#modal-body select {
+    background: rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: #ffffff;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+}
+
+#modal-body input::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+#modal-body button {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border: none;
+    color: white;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+#modal-body button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+.timer-mode-btn,
+.calc-mode-btn {
+    background: rgba(255, 255, 255, 0.2) !important;
+    border: 1px solid rgba(255, 255, 255, 0.3) !important;
+    color: white !important;
+    padding: 0.75rem 1.5rem !important;
+    border-radius: 8px !important;
+    cursor: pointer !important;
+}
+
+/* Improve calculator button visibility */
+#calc-buttons button {
+    background: rgba(255, 255, 255, 0.15) !important;
+    border: 1px solid rgba(255, 255, 255, 0.3) !important;
+    color: white !important;
+    font-weight: 600 !important;
+}
+
+#calc-buttons button:hover {
+    background: rgba(255, 255, 255, 0.25) !important;
+}
+
+/* Metronome improvements */
+#metronome-bpm {
+    color: #667eea;
+    font-weight: 700;
+    text-shadow: 0 2px 8px rgba(102, 126, 234, 0.4);
+}
+
+/* Drop zone styling */
+#drop-zone,
+#reverse-drop-zone {
+    background: rgba(255, 255, 255, 0.1);
+    border: 3px dashed rgba(102, 126, 234, 0.6) !important;
+    color: white !important;
+}
+
+#drop-zone p,
+#reverse-drop-zone p {
+    color: white !important;
+    font-size: 1.1rem;
+}

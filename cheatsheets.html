@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="hu">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SEK Digital Toolbox - Cheatsheets</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .cheat-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .tab-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .tab-btn {
+            padding: 1rem 2rem;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .tab-btn.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .cheat-section {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            backdrop-filter: blur(20px);
+        }
+
+        .cheat-section h3 {
+            color: #667eea;
+            margin-bottom: 1rem;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        .shortcut-grid {
+            display: grid;
+            gap: 0.5rem;
+        }
+
+        .shortcut-item {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            padding: 0.75rem;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+        }
+
+        .key {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 6px;
+            display: inline-block;
+            font-family: monospace;
+            font-weight: bold;
+        }
+
+        .code-block {
+            background: #1a202c;
+            color: #e2e8f0;
+            padding: 1rem;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 0.5rem 0;
+            font-family: 'Courier New', monospace;
+        }
+
+        .concept-card {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin-bottom: 1.5rem;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wave-background">
+        <div class="wave wave1"></div>
+        <div class="wave wave2"></div>
+        <div class="wave wave3"></div>
+    </div>
+
+    <div class="cheat-container">
+        <h1 style="text-align: center; font-family: 'Outfit', sans-serif; margin-bottom: 2rem;">
+            <span class="title-highlight">SEK Cheatsheets</span>
+        </h1>
+
+        <div class="tab-buttons">
+            <button class="tab-btn active" onclick="switchTab('keyboard')">⌨️ Keyboard Shortcuts</button>
+            <button class="tab-btn" onclick="switchTab('programming')">💻 Programming Terms</button>
+            <button class="tab-btn" onclick="switchTab('math')">🧮 Math & Physics</button>
+        </div>
+
+        <!-- Keyboard Shortcuts Tab -->
+        <div id="keyboard" class="tab-content active">
+            <!-- Basic Shortcuts -->
+            <div class="cheat-section">
+                <h3>📝 Basic Text & Operations</h3>
+                <div class="shortcut-grid">
+                    <div class="shortcut-item">
+                        <div><strong>Windows:</strong> <span class="key">Ctrl + C</span></div>
+                        <div><strong>Mac:</strong> <span class="key">⌘ + C</span></div>
+                        <div style="grid-column: span 2; margin-top: 0.5rem; color: var(--text-secondary);">Copy</div>
+                    </div>
+                    <div class="shortcut-item">
+                        <div><strong>Windows:</strong> <span class="key">Ctrl + V</span></div>
+                        <div><strong>Mac:</strong> <span class="key">⌘ + V</span></div>
+                        <div style="grid-column: span 2; margin-top: 0.5rem; color: var(--text-secondary);">Paste</div>
+                    </div>
+                    <div class="shortcut-item">
+                        <div><strong>Windows:</strong> <span class="key">Ctrl + X</span></div>
+                        <div><strong>Mac:</strong> <span class="key">⌘ + X</span></div>
+                        <div style="grid-column: span 2; margin-top: 0.5rem; color: var(--text-secondary);">Cut</div>
+                    </div>
+                    <div class="shortcut-item">
+                        <div><strong>Windows:</strong> <span class="key">Ctrl + Z</span></div>
+                        <div><strong>Mac:</strong> <span class="key">⌘ + Z</span></div>
+                        <div style="grid-column: span 2; margin-top: 0.5rem; color: var(--text-secondary);">Undo</div>
+                    </div>
+                    <div class="shortcut-item">
+                        <div><strong>Windows:</strong> <span class="key">Ctrl + Y</span></div>
+                        <div><strong>Mac:</strong> <span class="key">⌘ + Shift + Z</span></div>
+                        <div style="grid-column: span 2; margin-top: 0.5rem; color: var(--text-secondary);">Redo</div>
+                    </div>
+                    <div class="shortcut-item">
+                        <div><strong>Windows:</strong> <span class="key">Ctrl + A</span></div>
+                        <div><strong>Mac:</strong> <span class="key">⌘ + A</span></div>
+                        <div style="grid-column: span 2; margin-top: 0.5rem; color: var(--text-secondary);">Select All
+                        </div>
+                    </div>
+                    <div class="shortcut-item">
+                        <div><strong>Windows:</strong> <span class="key">Ctrl + S</span></div>
+                        <div><strong>Mac:</strong> <span class="key">⌘ + S</span></div>
+                        <div style="grid-column: span 2; margin-top: 0.5rem; color: var(--text-secondary);">Save</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Photoshop -->
+            <div class="cheat-section">
+                <h3>🎨 Photoshop</h3>
+                <div class="shortcut-grid">
+                    <div class="shortcut-item">
+                        <div><strong>Both:</strong> <span class="key">V</span></div>
+                        <div style="grid-column: span 2; margin-top: 0.5rem; color: var(--text-secondary);">Move Tool
+                        </div>
+                    </div>
+                    <div class="shortcut-item">
+                        <div><strong>Both:</strong> <span class="key">B</span></div>
+                        <div style="grid-column: span 2; margin-top: 0.5rem; color: var(--text-secondary);">Brush Tool
+                        </div>
+                    </div>
+                    <div class="shortcut-item">
+                        <div><strong>Both:</strong> <span class="key">E</span></div>
+                        <div style="grid-column: span 2; margin-top: 0.5rem; color: var(--text-secondary);">Eraser Tool
+                        </div>
+                    </div>
+                    <div class="shortcut-item">
+                        <div><strong>Both:</strong> <span class="key">L</span></div>
+                        <div style="grid-column: span 2; margin-top: 0.5rem; color: var(--text-secondary);">Lasso Tool
+                        </div>
+                    </div>
+                    <div class="shortcut-item">
+                        <div><strong>Windows:</strong> <span class="key">Ctrl + J</span></div>
+                        <div><strong>Mac:</strong> <span class="key">⌘ + J</span></div>
+                        <div style="grid-column: span 2; margin-top: 0.5rem; color: var(--text-secondary);">Duplicate
+                            Layer</div>
+                    </div>
+                    <div class="shortcut-item">
+                        <div><strong>Windows:</strong> <span class="key">Ctrl + Shift + N</span></div>
+                        <div><strong>Mac:</strong> <span class="key">⌘ + Shift + N</span></div>
+                        <div style="grid-column: span 2; margin-top: 0.5rem; color: var(--text-secondary);">New Layer
+                        </div>
+                    </div>
+                    <div class="shortcut-item">
+                        <div><strong>Windows:</strong> <span class="key">Ctrl + T</span></div>
+                        <div><strong>Mac:</strong> <span class="key">⌘ + T</span></div>
+                        <div style="grid-column: span 2; margin-top: 0.5rem; color: var(--text-secondary);">Free
+                            Transform</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Blender -->
+            <div class="cheat-section">
+                <h3>🎬 Blender</h3>
+                <div class="shortcut-grid">
+                    <div class="shortcut-item">
+                        <div><strong>Both:</strong> <span class="key">G</span></div>
+                        <div style="grid-column: span 2; margin-top: 0.5rem; color: var(--text-secondary);">Grab/Move
+                        </div>
+                    </div>
+                    <div class="shortcut-item">
+                        <div><strong>Both:</strong> <span class="key">R</span></div>
+                        <div style="grid-column: span 2; margin-top: 0.5rem; color: var(--text-secondary);">Rotate</div>
+                    </div>
+                    <div class="shortcut-item">
+                        <div><strong>Both:</strong> <span class="key">S</span></div>
+                        <div style="grid-column: span 2; margin-top: 0.5rem; color: var(--text-secondary);">Scale</div>
+                    </div>
+                    <div class="shortcut-item">
+                        <div><strong>Both:</strong> <span class="key">Tab</span></div>
+                        <div style="grid-column: span 2; margin-top: 0.5rem; color: var(--text-secondary);">Edit Mode
+                            Toggle</div>
+                    </div>
+                    <div class="shortcut-item">
+                        <div><strong>Both:</strong> <span class="key">Shift + A</span></div>
+                        <div style="grid-column: span 2; margin-top: 0.5rem; color: var(--text-secondary);">Add Object
+                        </div>
+                    </div>
+                    <div class="shortcut-item">
+                        <div><strong>Both:</strong> <span class="key">X</span></div>
+                        <div style="grid-column: span 2; margin-top: 0.5rem; color: var(--text-secondary);">Delete</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Premiere Pro -->
+            <div class="cheat-section">
+                <h3>🎥 Premiere Pro</h3>
+                <div class="shortcut-grid">
+                    <div class="shortcut-item">
+                        <div><strong>Both:</strong> <span class="key">C</span></div>
+                        <div style="grid-column: span 2; margin-top: 0.5rem; color: var(--text-secondary);">Razor Tool
+                        </div>
+                    </div>
+                    <div class="shortcut-item">
+                        <div><strong>Both:</strong> <span class="key">V</span></div>
+                        <div style="grid-column: span 2; margin-top: 0.5rem; color: var(--text-secondary);">Selection
+                            Tool</div>
+                    </div>
+                    <div class="shortcut-item">
+                        <div><strong>Both:</strong> <span class="key">Space</span></div>
+                        <div style="grid-column: span 2; margin-top: 0.5rem; color: var(--text-secondary);">Play/Pause
+                        </div>
+                    </div>
+                    <div class="shortcut-item">
+                        <div><strong>Windows:</strong> <span class="key">Ctrl + K</span></div>
+                        <div><strong>Mac:</strong> <span class="key">⌘ + K</span></div>
+                        <div style="grid-column: span 2; margin-top: 0.5rem; color: var(--text-secondary);">Cut at
+                            Playhead</div>
+                    </div>
+                    <div class="shortcut-item">
+                        <div><strong>Windows:</strong> <span class="key">Ctrl + M</span></div>
+                        <div><strong>Mac:</strong> <span class="key">⌘ + M</span></div>
+                        <div style="grid-column: span 2; margin-top: 0.5rem; color: var(--text-secondary);">Export Media
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- GarageBand -->
+            <div class="cheat-section">
+                <h3>🎹 GarageBand</h3>
+                <div class="shortcut-grid">
+                    <div class="shortcut-item">
+                        <div><strong>Mac:</strong> <span class="key">Space</span></div>
+                        <div style="grid-column: span 2; margin-top: 0.5rem; color: var(--text-secondary);">Play/Pause
+                        </div>
+                    </div>
+                    <div class="shortcut-item">
+                        <div><strong>Mac:</strong> <span class="key">⌘ + K</span></div>
+                        <div style="grid-column: span 2; margin-top: 0.5rem; color: var(--text-secondary);">Show/Hide
+                            Keyboard</div>
+                    </div>
+                    <div class="shortcut-item">
+                        <div><strong>Mac:</strong> <span class="key">R</span></div>
+                        <div style="grid-column: span 2; margin-top: 0.5rem; color: var(--text-secondary);">Record</div>
+                    </div>
+                    <div class="shortcut-item">
+                        <div><strong>Mac:</strong> <span class="key">⌘ + D</span></div>
+                        <div style="grid-column: span 2; margin-top: 0.5rem; color: var(--text-secondary);">Duplicate
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Canva -->
+            <div class="cheat-section">
+                <h3>🎨 Canva</h3>
+                <div class="shortcut-grid">
+                    <div class="shortcut-item">
+                        <div><strong>Windows:</strong> <span class="key">Ctrl + D</span></div>
+                        <div><strong>Mac:</strong> <span class="key">⌘ + D</span></div>
+                        <div style="grid-column: span 2; margin-top: 0.5rem; color: var(--text-secondary);">Duplicate
+                        </div>
+                    </div>
+                    <div class="shortcut-item">
+                        <div><strong>Windows:</strong> <span class="key">Ctrl + G</span></div>
+                        <div><strong>Mac:</strong> <span class="key">⌘ + G</span></div>
+                        <div style="grid-column: span 2; margin-top: 0.5rem; color: var(--text-secondary);">Group
+                            Elements</div>
+                    </div>
+                    <div class="shortcut-item">
+                        <div><strong>Both:</strong> <span class="key">T</span></div>
+                        <div style="grid-column: span 2; margin-top: 0.5rem; color: var(--text-secondary);">Add Text
+                        </div>
+                    </div>
+                    <div class="shortcut-item">
+                        <div><strong>Both:</strong> <span class="key">L</span></div>
+                        <div style="grid-column: span 2; margin-top: 0.5rem; color: var(--text-secondary);">Add Line
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Roblox Studio -->
+            <div class="cheat-section">
+                <h3>🎮 Roblox Studio</h3>
+                <div class="shortcut-grid">
+                    <div class="shortcut-item">
+                        <div><strong>Both:</strong> <span class="key">F5</span></div>
+                        <div style="grid-column: span 2; margin-top: 0.5rem; color: var(--text-secondary);">Play</div>
+                    </div>
+                    <div class="shortcut-item">
+                        <div><strong>Both:</strong> <span class="key">F8</span></div>
+                        <div style="grid-column: span 2; margin-top: 0.5rem; color: var(--text-secondary);">Stop</div>
+                    </div>
+                    <div class="shortcut-item">
+                        <div><strong>Windows:</strong> <span class="key">Ctrl + 1</span></div>
+                        <div><strong>Mac:</strong> <span class="key">⌘ + 1</span></div>
+                        <div style="grid-column: span 2; margin-top: 0.5rem; color: var(--text-secondary);">Select Tool
+                        </div>
+                    </div>
+                    <div class="shortcut-item">
+                        <div><strong>Windows:</strong> <span class="key">Ctrl + 2</span></div>
+                        <div><strong>Mac:</strong> <span class="key">⌘ + 2</span></div>
+                        <div style="grid-column: span 2; margin-top: 0.5rem; color: var(--text-secondary);">Move Tool
+                        </div>
+                    </div>
+                    <div class="shortcut-item">
+                        <div><strong>Windows:</strong> <span class="key">Ctrl + 3</span></div>
+                        <div><strong>Mac:</strong> <span class="key">⌘ + 3</span></div>
+                        <div style="grid-column: span 2; margin-top: 0.5rem; color: var(--text-secondary);">Scale Tool
+                        </div>
+                    </div>
+                    <div class="shortcut-item">
+                        <div><strong>Windows:</strong> <span class="key">Ctrl + 4</span></div>
+                        <div><strong>Mac:</strong> <span class="key">⌘ + 4</span></div>
+                        <div style="grid-column: span 2; margin-top: 0.5rem; color: var(--text-secondary);">Rotate Tool
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Programming Terms Tab -->
+        <div id="programming" class="tab-content">
+            <div class="concept-card">
+                <h3>📦 Variables</h3>
+                <p>Variables are containers that store data values.</p>
+
+                <h4 style="margin-top: 1rem;">Pseudocode:</h4>
+                <div class="code-block">
+                    SET age TO 15<br>
+                    SET name TO "Anna"<br>
+                    SET isStudent TO true
+                </div>
+
+                <h4 style="margin-top: 1rem;">Python:</h4>
+                <div class="code-block">
+                    age = 15<br>
+                    name = "Anna"<br>
+                    is_student = True
+                </div>
+
+                <h4 style="margin-top: 1rem;">JavaScript:</h4>
+                <div class="code-block">
+                    let age = 15;<br>
+                    let name = "Anna";<br>
+                    let isStudent = true;
+                </div>
+            </div>
+
+            <div class="concept-card">
+                <h3>🔀 Conditionals (If/Else)</h3>
+                <p>Conditionals allow your program to make decisions based on conditions.</p>
+
+                <h4 style="margin-top: 1rem;">Pseudocode:</h4>
+                <div class="code-block">
+                    IF age >= 18 THEN<br>
+                    &nbsp;&nbsp;PRINT "Adult"<br>
+                    ELSE<br>
+                    &nbsp;&nbsp;PRINT "Minor"<br>
+                    END IF
+                </div>
+
+                <h4 style="margin-top: 1rem;">Python:</h4>
+                <div class="code-block">
+                    if age >= 18:<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;print("Adult")<br>
+                    else:<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;print("Minor")
+                </div>
+
+                <h4 style="margin-top: 1rem;">JavaScript:</h4>
+                <div class="code-block">
+                    if (age >= 18) {<br>
+                    &nbsp;&nbsp;console.log("Adult");<br>
+                    } else {<br>
+                    &nbsp;&nbsp;console.log("Minor");<br>
+                    }
+                </div>
+            </div>
+
+            <div class="concept-card">
+                <h3>🔁 Loops</h3>
+                <p>Loops repeat code multiple times.</p>
+
+                <h4 style="margin-top: 1rem;">Pseudocode (For Loop):</h4>
+                <div class="code-block">
+                    FOR i FROM 1 TO 5 DO<br>
+                    &nbsp;&nbsp;PRINT i<br>
+                    END FOR
+                </div>
+
+                <h4 style="margin-top: 1rem;">Python:</h4>
+                <div class="code-block">
+                    for i in range(1, 6):<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;print(i)
+                </div>
+
+                <h4 style="margin-top: 1rem;">JavaScript:</h4>
+                <div class="code-block">
+                    for (let i = 1; i <= 5; i++) {<br>
+                        &nbsp;&nbsp;console.log(i);<br>
+                        }
+                </div>
+            </div>
+
+            <div class="concept-card">
+                <h3>📋 Arrays/Lists</h3>
+                <p>Arrays store multiple values in a single variable.</p>
+
+                <h4 style="margin-top: 1rem;">Pseudocode:</h4>
+                <div class="code-block">
+                    fruits = ["apple", "banana", "cherry"]<br>
+                    PRINT fruits[0] // prints "apple"
+                </div>
+
+                <h4 style="margin-top: 1rem;">Python:</h4>
+                <div class="code-block">
+                    fruits = ["apple", "banana", "cherry"]<br>
+                    print(fruits[0]) # prints "apple"
+                </div>
+
+                <h4 style="margin-top: 1rem;">JavaScript:</h4>
+                <div class="code-block">
+                    let fruits = ["apple", "banana", "cherry"];<br>
+                    console.log(fruits[0]); // prints "apple"
+                </div>
+            </div>
+
+            <div class="concept-card">
+                <h3>📖 Dictionaries/Objects</h3>
+                <p>Dictionaries store data as key-value pairs.</p>
+
+                <h4 style="margin-top: 1rem;">Pseudocode:</h4>
+                <div class="code-block">
+                    student = {<br>
+                    &nbsp;&nbsp;"name": "Anna",<br>
+                    &nbsp;&nbsp;"age": 15,<br>
+                    &nbsp;&nbsp;"grade": "10th"<br>
+                    }
+                </div>
+
+                <h4 style="margin-top: 1rem;">Python:</h4>
+                <div class="code-block">
+                    student = {<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;"name": "Anna",<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;"age": 15,<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;"grade": "10th"<br>
+                    }<br>
+                    print(student["name"]) # prints "Anna"
+                </div>
+
+                <h4 style="margin-top: 1rem;">JavaScript:</h4>
+                <div class="code-block">
+                    let student = {<br>
+                    &nbsp;&nbsp;name: "Anna",<br>
+                    &nbsp;&nbsp;age: 15,<br>
+                    &nbsp;&nbsp;grade: "10th"<br>
+                    };<br>
+                    console.log(student.name); // prints "Anna"
+                </div>
+            </div>
+        </div>
+
+        <!-- Math & Physics Tab -->
+        <div id="math" class="tab-content">
+            <div class="cheat-section">
+                <h3>📐 Basic Math Formulas</h3>
+                <div class="concept-card">
+                    <h4>Area of a Circle</h4>
+                    <p><strong>A = πr²</strong></p>
+                    <p>Where r is the radius</p>
+                </div>
+
+                <div class="concept-card">
+                    <h4>Pythagorean Theorem</h4>
+                    <p><strong>a² + b² = c²</strong></p>
+                    <p>For right triangles, where c is the hypotenuse</p>
+                </div>
+
+                <div class="concept-card">
+                    <h4>Volume of a Sphere</h4>
+                    <p><strong>V = (4/3)πr³</strong></p>
+                </div>
+
+                <div class="concept-card">
+                    <h4>Quadratic Formula</h4>
+                    <p><strong>x = (-b ± √(b² - 4ac)) / 2a</strong></p>
+                    <p>For equations in the form ax² + bx + c = 0</p>
+                </div>
+            </div>
+
+            <div class="cheat-section">
+                <h3>⚡ Physics Formulas</h3>
+                <div class="concept-card">
+                    <h4>Force</h4>
+                    <p><strong>F = ma</strong></p>
+                    <p>Force = mass × acceleration</p>
+                </div>
+
+                <div class="concept-card">
+                    <h4>Kinetic Energy</h4>
+                    <p><strong>KE = ½mv²</strong></p>
+                    <p>Where m is mass and v is velocity</p>
+                </div>
+
+                <div class="concept-card">
+                    <h4>Potential Energy</h4>
+                    <p><strong>PE = mgh</strong></p>
+                    <p>Where m is mass, g is gravity (9.8 m/s²), h is height</p>
+                </div>
+
+                <div class="concept-card">
+                    <h4>Power</h4>
+                    <p><strong>P = W/t</strong></p>
+                    <p>Power = Work / time</p>
+                    <p><strong>P = VI</strong></p>
+                    <p>Power = Voltage × Current</p>
+                </div>
+            </div>
+
+            <div class="cheat-section">
+                <h3>🔌 Villamos (Electricity)</h3>
+                <div class="concept-card">
+                    <h4>Ohm's Law</h4>
+                    <p><strong>V = IR</strong></p>
+                    <p>Voltage = Current × Resistance</p>
+                </div>
+
+                <div class="concept-card">
+                    <h4>Power (Electrical)</h4>
+                    <p><strong>P = VI</strong></p>
+                    <p>Power = Voltage × Current</p>
+                    <p><strong>P = I²R</strong></p>
+                    <p>Power = Current² × Resistance</p>
+                </div>
+
+                <div class="concept-card">
+                    <h4>Resistance in Series</h4>
+                    <p><strong>R_total = R₁ + R₂ + R₃ + ...</strong></p>
+                </div>
+
+                <div class="concept-card">
+                    <h4>Resistance in Parallel</h4>
+                    <p><strong>1/R_total = 1/R₁ + 1/R₂ + 1/R₃ + ...</strong></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        function switchTab(tabName) {
+            // Hide all tabs
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+
+            // Remove active from all buttons
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+
+            // Show selected tab
+            document.getElementById(tabName).classList.add('active');
+
+            // Activate clicked button
+            event.target.classList.add('active');
+        }
+    </script>
+</body>
+
+</html>

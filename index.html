@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="hu">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="SEK Budapest Digital Culture Education Toolbox - Your digital hub for learning, creating, and exploring">
+    <meta name="keywords" content="education, digital tools, SEK Budapest, learning, creative tools">
+    <title>SEK Digital Toolbox</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="modal-styles.css">
+</head>
+
+<body>
+    <!-- Animated Background -->
+    <div class="wave-background">
+        <div class="wave wave1"></div>
+        <div class="wave wave2"></div>
+        <div class="wave wave3"></div>
+    </div>
+
+    <!-- Language & Theme Switchers -->
+    <div class="top-controls">
+        <button id="theme-toggle" class="control-btn" aria-label="Toggle theme">
+            <span class="theme-icon">🌙</span>
+        </button>
+        <button id="lang-toggle" class="control-btn" aria-label="Switch language">
+            <span id="lang-text">EN</span>
+        </button>
+    </div>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <h1 class="main-title">
+                <span class="title-highlight">SEK Digital Toolbox</span>
+            </h1>
+            <p class="subtitle" data-en="Your digital hub for learning, creating, and exploring"
+                data-hu="Digitális központod a tanuláshoz, alkotáshoz és felfedezéshez">
+                Your digital hub for learning, creating, and exploring
+            </p>
+
+            <!-- Nameday & Date Widget -->
+            <div class="info-widget glass-card">
+                <div class="date-display">
+                    <span id="current-date"></span>
+                </div>
+                <div class="nameday-display">
+                    <span data-en="Today's nameday:" data-hu="Mai névnap:">Mai névnap:</span>
+                    <strong id="nameday-names"></strong>
+                </div>
+                <div id="weather-widget" class="weather-display"></div>
+            </div>
+        </header>
+
+        <!-- Multi-Search Bar -->
+        <section class="search-section glass-card">
+            <h2 data-en="Quick Search" data-hu="Gyors keresés">Gyors keresés</h2>
+            <div class="search-container">
+                <input type="text" id="search-input" placeholder="Search..." class="search-input">
+                <div class="search-engines">
+                    <button class="search-btn" data-engine="google">Google</button>
+                    <button class="search-btn" data-engine="duckduckgo">DuckDuckGo</button>
+                    <button class="search-btn" data-engine="bing">Bing</button>
+                    <button class="search-btn" data-engine="yahoo">Yahoo</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Interactive Tools Section -->
+        <section class="section">
+            <h2 class="section-title" data-en="🛠️ Interactive Tools" data-hu="🛠️ Interaktív Eszközök">🛠️ Interaktív
+                Eszközök</h2>
+            <div class="tool-grid">
+                <button class="tool-card glass-card" data-tool="metronome">
+                    <span class="tool-icon">🎵</span>
+                    <span class="tool-name" data-en="Metronome" data-hu="Metronóm">Metronóm</span>
+                </button>
+                <button class="tool-card glass-card" data-tool="notes">
+                    <span class="tool-icon">🎼</span>
+                    <span class="tool-name" data-en="Musical Notes" data-hu="Hangjegyek">Hangjegyek</span>
+                </button>
+                <button class="tool-card glass-card" data-tool="flashlight">
+                    <span class="tool-icon">🔦</span>
+                    <span class="tool-name" data-en="Flashlight" data-hu="Zseblámpa">Zseblámpa</span>
+                </button>
+                <button class="tool-card glass-card" data-tool="ruler">
+                    <span class="tool-icon">📏</span>
+                    <span class="tool-name" data-en="Ruler" data-hu="Vonalzó">Vonalzó</span>
+                </button>
+                <button class="tool-card glass-card" data-tool="timer">
+                    <span class="tool-icon">⏱️</span>
+                    <span class="tool-name" data-en="Timer/Stopwatch" data-hu="Időmérő/Stopper">Időmérő</span>
+                </button>
+                <button class="tool-card glass-card" data-tool="pomodoro">
+                    <span class="tool-icon">🍅</span>
+                    <span class="tool-name" data-en="Pomodoro" data-hu="Pomodoro">Pomodoro</span>
+                </button>
+                <button class="tool-card glass-card" data-tool="calculator">
+                    <span class="tool-icon">🧮</span>
+                    <span class="tool-name" data-en="Calculator" data-hu="Számológép">Számológép</span>
+                </button>
+                <button class="tool-card glass-card" data-tool="color-picker">
+                    <span class="tool-icon">🎨</span>
+                    <span class="tool-name" data-en="Color Picker" data-hu="Színválasztó">Színválasztó</span>
+                </button>
+                <button class="tool-card glass-card" data-tool="unit-converter">
+                    <span class="tool-icon">🔄</span>
+                    <span class="tool-name" data-en="Unit Converter" data-hu="Mértékegység">Mértékegység</span>
+                </button>
+                <button class="tool-card glass-card" data-tool="qr-generator">
+                    <span class="tool-icon">📱</span>
+                    <span class="tool-name" data-en="QR Generator" data-hu="QR Generátor">QR Generátor</span>
+                </button>
+                <button class="tool-card glass-card" data-tool="exif-remover">
+                    <span class="tool-icon">🖼️</span>
+                    <span class="tool-name" data-en="EXIF Remover" data-hu="EXIF Eltávolító">EXIF Eltávolító</span>
+                </button>
+                <button class="tool-card glass-card" data-tool="reverse-search">
+                    <span class="tool-icon">🔍</span>
+                    <span class="tool-name" data-en="Reverse Image" data-hu="Képkeresés">Képkeresés</span>
+                </button>
+                <button class="tool-card glass-card" data-tool="notes-app">
+                    <span class="tool-icon">📝</span>
+                    <span class="tool-name" data-en="Sticky Notes" data-hu="Jegyzet">Jegyzet</span>
+                </button>
+                <button class="tool-card glass-card" data-tool="soundboard">
+                    <span class="tool-icon">🔊</span>
+                    <span class="tool-name" data-en="Soundboard" data-hu="Hangok">Hangok</span>
+                </button>
+                <button class="tool-card glass-card" data-tool="screenshot">
+                    <span class="tool-icon">📸</span>
+                    <span class="tool-name" data-en="Screenshot" data-hu="Képernyőkép">Képernyőkép</span>
+                </button>
+            </div>
+        </section>
+
+        <!-- AI & Research -->
+        <section class="section">
+            <h2 class="section-title" data-en="🤖 AI & Research" data-hu="🤖 AI és Kutatás">🤖 AI és Kutatás</h2>
+            <div class="link-grid">
+                <a href="https://chat.openai.com" target="_blank" class="link-card glass-card">
+                    <span class="link-icon">💬</span>
+                    <span class="link-name">ChatGPT</span>
+                </a>
+                <a href="https://gemini.google.com" target="_blank" class="link-card glass-card">
+                    <span class="link-icon">✨</span>
+                    <span class="link-name">Gemini</span>
+                </a>
+                <a href="https://www.perplexity.ai" target="_blank" class="link-card glass-card">
+                    <span class="link-icon">🔮</span>
+                    <span class="link-name">Perplexity</span>
+                </a>
+            </div>
+        </section>
+
+        <!-- Creative Tools -->
+        <section class="section">
+            <h2 class="section-title" data-en="🎨 Creative Tools" data-hu="🎨 Kreatív Eszközök">🎨 Kreatív Eszközök</h2>
+            <div class="link-grid">
+                <a href="https://www.canva.com" target="_blank" class="link-card glass-card">
+                    <span class="link-icon">🎨</span>
+                    <span class="link-name">Canva</span>
+                </a>
+                <a href="https://jspaint.app" target="_blank" class="link-card glass-card">
+                    <span class="link-icon">🖌️</span>
+                    <span class="link-name">Paint</span>
+                </a>
+                <a href="https://www.autodraw.com" target="_blank" class="link-card glass-card">
+                    <span class="link-icon">✏️</span>
+                    <span class="link-name">AutoDraw</span>
+                </a>
+            </div>
+        </section>
+
+        <!-- Game Dev Tools -->
+        <section class="section">
+            <h2 class="section-title" data-en="🎮 Game Development" data-hu="🎮 Játékfejlesztés">🎮 Játékfejlesztés</h2>
+            <div class="link-grid">
+                <a href="https://narrat.dev" target="_blank" class="link-card glass-card">
+                    <span class="link-icon">📖</span>
+                    <span class="link-name">Narrat</span>
+                </a>
+                <a href="https://twinery.org" target="_blank" class="link-card glass-card">
+                    <span class="link-icon">🕸️</span>
+                    <span class="link-name">Twine</span>
+                </a>
+                <a href="https://make.bitsy.org" target="_blank" class="link-card glass-card">
+                    <span class="link-icon">🎲</span>
+                    <span class="link-name">Bitsy</span>
+                </a>
+            </div>
+        </section>
+
+        <!-- Coding Platforms -->
+        <section class="section">
+            <h2 class="section-title" data-en="💻 Coding Platforms" data-hu="💻 Programozási Platformok">💻 Programozási
+                Platformok</h2>
+            <div class="link-grid">
+                <a href="https://codehs.com" target="_blank" class="link-card glass-card">
+                    <span class="link-icon">🏫</span>
+                    <span class="link-name">CodeHS</span>
+                </a>
+                <a href="https://arcade.makecode.com" target="_blank" class="link-card glass-card">
+                    <span class="link-icon">🕹️</span>
+                    <span class="link-name">MakeCode</span>
+                </a>
+                <a href="https://code.org" target="_blank" class="link-card glass-card">
+                    <span class="link-icon">📚</span>
+                    <span class="link-name">Code.org</span>
+                </a>
+                <a href="https://scratch.mit.edu" target="_blank" class="link-card glass-card">
+                    <span class="link-icon">🐱</span>
+                    <span class="link-name">Scratch</span>
+                </a>
+                <a href="https://brilliant.org" target="_blank" class="link-card glass-card">
+                    <span class="link-icon">💡</span>
+                    <span class="link-name">Brilliant</span>
+                </a>
+                <a href="https://www.w3schools.com" target="_blank" class="link-card glass-card">
+                    <span class="link-icon">🌐</span>
+                    <span class="link-name">W3Schools</span>
+                </a>
+            </div>
+        </section>
+
+        <!-- Daily Games -->
+        <section class="section">
+            <h2 class="section-title" data-en="🎯 Daily Games" data-hu="🎯 Napi Játékok">🎯 Napi Játékok</h2>
+            <div class="link-grid">
+                <a href="https://www.nytimes.com/games/wordle" target="_blank" class="link-card glass-card">
+                    <span class="link-icon">🔤</span>
+                    <span class="link-name">Wordle</span>
+                </a>
+                <a href="https://www.nytimes.com/games/connections" target="_blank" class="link-card glass-card">
+                    <span class="link-icon">🔗</span>
+                    <span class="link-name">Connections</span>
+                </a>
+                <a href="https://foodguessr.com" target="_blank" class="link-card glass-card">
+                    <span class="link-icon">🍕</span>
+                    <span class="link-name">FoodGuessr</span>
+                </a>
+                <a href="https://timeguessr.com" target="_blank" class="link-card glass-card">
+                    <span class="link-icon">⏰</span>
+                    <span class="link-name">TimeGuessr</span>
+                </a>
+                <a href="https://zty.pe" target="_blank" class="link-card glass-card">
+                    <span class="link-icon">⌨️</span>
+                    <span class="link-name">Z-Type</span>
+                </a>
+            </div>
+        </section>
+
+        <!-- Educational Resources -->
+        <section class="section">
+            <h2 class="section-title" data-en="📚 Educational Resources" data-hu="📚 Oktatási Források">📚 Oktatási
+                Források</h2>
+            <div class="link-grid">
+                <a href="https://educationalhub.in" target="_blank" class="link-card glass-card">
+                    <span class="link-icon">🎓</span>
+                    <span class="link-name">Educational Hub</span>
+                </a>
+                <a href="https://ghoul3.notion.site" target="_blank" class="link-card glass-card">
+                    <span class="link-icon">👻</span>
+                    <span class="link-name">Ghoul Resources</span>
+                </a>
+                <a href="https://fmhy.net" target="_blank" class="link-card glass-card">
+                    <span class="link-icon">🔓</span>
+                    <span class="link-name">FMHY</span>
+                </a>
+                <a href="https://nkp.hu" target="_blank" class="link-card glass-card">
+                    <span class="link-icon">📖</span>
+                    <span class="link-name">NKP</span>
+                </a>
+            </div>
+        </section>
+
+        <!-- Map & Data Tools -->
+        <section class="section">
+            <h2 class="section-title" data-en="🗺️ Map & Data Tools" data-hu="🗺️ Térkép és Adatok">🗺️ Térkép és Adatok
+            </h2>
+            <div class="link-grid">
+                <a href="https://overpass-turbo.eu" target="_blank" class="link-card glass-card">
+                    <span class="link-icon">🗺️</span>
+                    <span class="link-name">Overpass Turbo</span>
+                </a>
+                <a href="https://flourish.studio" target="_blank" class="link-card glass-card">
+                    <span class="link-icon">📊</span>
+                    <span class="link-name">Flourish</span>
+                </a>
+                <a href="https://www.mapbox.com" target="_blank" class="link-card glass-card">
+                    <span class="link-icon">🌍</span>
+                    <span class="link-name">Mapbox</span>
+                </a>
+                <a href="https://wikimapia.org" target="_blank" class="link-card glass-card">
+                    <span class="link-icon">🌐</span>
+                    <span class="link-name">Wikimapia</span>
+                </a>
+                <a href="https://osintframework.com" target="_blank" class="link-card glass-card">
+                    <span class="link-icon">🔍</span>
+                    <span class="link-name">OSINT Framework</span>
+                </a>
+            </div>
+        </section>
+
+        <!-- Fun & Misc -->
+        <section class="section">
+            <h2 class="section-title" data-en="🌟 Fun & Misc" data-hu="🌟 Egyéb">🌟 Egyéb</h2>
+            <div class="link-grid">
+                <a href="https://radio.garden" target="_blank" class="link-card glass-card">
+                    <span class="link-icon">📻</span>
+                    <span class="link-name">Radio Garden</span>
+                </a>
+                <a href="https://www.half.earth/maps" target="_blank" class="link-card glass-card">
+                    <span class="link-icon">🌍</span>
+                    <span class="link-name">Half-Earth</span>
+                </a>
+            </div>
+        </section>
+
+        <!-- Cheatsheets -->
+        <section class="section">
+            <h2 class="section-title" data-en="📋 Cheatsheets" data-hu="📋 Súgók">📋 Súgók</h2>
+            <div class="link-grid">
+                <button class="link-card glass-card" onclick="window.open('cheatsheets.html', '_blank')">
+                    <span class="link-icon">⌨️</span>
+                    <span class="link-name" data-en="Keyboard Shortcuts"
+                        data-hu="Billentyűkombinációk">Billentyűkombinációk</span>
+                </button>
+                <button class="link-card glass-card" onclick="window.open('cheatsheets.html#programming', '_blank')">
+                    <span class="link-icon">💻</span>
+                    <span class="link-name" data-en="Programming Terms" data-hu="Programozási Fogalmak">Programozási
+                        Fogalmak</span>
+                </button>
+                <button class="link-card glass-card" onclick="window.open('cheatsheets.html#math', '_blank')">
+                    <span class="link-icon">🧮</span>
+                    <span class="link-name" data-en="Math & Physics" data-hu="Matek és Fizika">Matek és Fizika</span>
+                </button>
+            </div>
+        </section>
+    </div>
+
+    <!-- Modal Container -->
+    <div id="modal-overlay" class="modal-overlay">
+        <div class="modal-content glass-card">
+            <button class="modal-close" aria-label="Close">&times;</button>
+            <div id="modal-body"></div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="script.js"></script>
+    <script src="tools/tools.js"></script>
+</body>
+
+</html>

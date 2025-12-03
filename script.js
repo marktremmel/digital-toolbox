@@ -19,10 +19,29 @@ function initializeApp() {
     initializeToolModals();
     initializeThemeToggle();
     initializeLangToggle();
+    initUISettings(); // Initialize UI Settings
+    initializeSettingsToggle(); // Wire up button
     registerServiceWorker();
 
     // Update date every minute
     setInterval(updateDate, 60000);
+}
+
+function initializeSettingsToggle() {
+    const settingsBtn = document.getElementById('settings-toggle');
+    if (settingsBtn) {
+        settingsBtn.addEventListener('click', () => {
+            const modalOverlay = document.getElementById('modal-overlay');
+            const modalBody = document.getElementById('modal-body');
+
+            modalBody.innerHTML = getSettingsInterface();
+            modalOverlay.classList.add('active');
+
+            // Re-apply current states to UI controls
+            // (This is handled by initUISettings -> loadUISettings, but we might need to refresh UI state here if modal was just created)
+            // For now, getSettingsInterface renders with current state.
+        });
+    }
 }
 
 function registerServiceWorker() {

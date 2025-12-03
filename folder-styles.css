@@ -23,9 +23,11 @@
 
 .folder-header h2 {
     font-family: 'Outfit', sans-serif;
-    font-size: 2rem;
+    font-size: 1.5rem;
     color: var(--text-primary);
     margin: 0;
+    overflow: visible;
+    line-height: 1.4;
 }
 
 .folder-toggle {

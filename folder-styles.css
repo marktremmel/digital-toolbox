@@ -1,0 +1,55 @@
+/* Collapsible Folder Sections */
+.folder-section {
+    margin-bottom: var(--spacing-xl);
+}
+
+.folder-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--spacing-md) var(--spacing-lg);
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: all var(--transition-normal);
+    margin-bottom: var(--spacing-sm);
+}
+
+.folder-header:hover {
+    background: rgba(255, 255, 255, 0.25);
+    transform: translateX(4px);
+}
+
+.folder-header h2 {
+    font-family: 'Outfit', sans-serif;
+    font-size: 2rem;
+    color: var(--text-primary);
+    margin: 0;
+}
+
+.folder-toggle {
+    font-size: 1.5rem;
+    transition: transform 0.3s ease;
+    color: var(--text-primary);
+}
+
+.folder-header.collapsed .folder-toggle {
+    transform: rotate(-90deg);
+}
+
+.folder-content {
+    overflow: hidden;
+    transition: max-height 0.4s ease, opacity 0.3s ease;
+    max-height: 5000px;
+    opacity: 1;
+}
+
+.folder-content.collapsed {
+    max-height: 0;
+    opacity: 0;
+}
+
+.folder-content .link-grid {
+    margin-top: var(--spacing-md);
+}

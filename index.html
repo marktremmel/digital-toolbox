@@ -18,6 +18,9 @@
 
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="modal-styles.css">
+    <link rel="stylesheet" href="folder-styles.css">
+    <link rel="stylesheet" href="ui-styles.css">
+    <link rel="manifest" href="manifest.json">
 </head>
 
 <body>
@@ -63,19 +66,44 @@
             </div>
         </header>
 
-        <!-- Multi-Search Bar -->
-        <section class="search-section glass-card">
-            <h2 data-en="Quick Search" data-hu="Gyors keresés">Gyors keresés</h2>
+        <!-- Search & Favorites Section -->
+        <section class="search-section">
+            <h2 data-en="🔍 Search & Favorites" data-hu="🔍 Keresés és Kedvencek">🔍 Keresés és Kedvencek</h2>
+
             <div class="search-container">
-                <input type="text" id="search-input" placeholder="Search..." class="search-input">
-                <div class="search-engines">
-                    <button class="search-btn" data-engine="google">Google</button>
-                    <button class="search-btn" data-engine="duckduckgo">DuckDuckGo</button>
-                    <button class="search-btn" data-engine="bing">Bing</button>
-                    <button class="search-btn" data-engine="yahoo">Yahoo</button>
+                <input type="text" id="global-search" class="search-input"
+                    placeholder="Search tools, links, or cheatsheets..."
+                    data-placeholder-en="Search tools, links, or cheatsheets..."
+                    data-placeholder-hu="Keresés eszközök, linkek vagy puskák között...">
+            </div>
+
+            <div id="favorites-section" class="favorites-container" style="display: none;">
+                <h3 data-en="⭐ Favorites" data-hu="⭐ Kedvencek">⭐ Kedvencek</h3>
+                <div class="tool-grid" id="favorites-grid">
+                    <!-- Favorites will be populated here -->
                 </div>
             </div>
         </section>
+
+        <!-- Multi-Engine Web Search -->
+        <div class="folder-section">
+            <div class="folder-header collapsed" onclick="toggleFolder(this)">
+                <h2 data-en="🌐 Web Search" data-hu="🌐 Webes Keresés">🌐 Webes Keresés</h2>
+                <span class="folder-toggle">🔽</span>
+            </div>
+            <div class="folder-content collapsed">
+                <div class="search-container" style="padding: 1rem;">
+                    <input type="text" id="search-input" class="search-input" placeholder="Search the web..."
+                        data-placeholder-en="Search the web..." data-placeholder-hu="Keresés a weben...">
+                    <div class="search-engines">
+                        <button class="search-btn" onclick="search('google')">Google</button>
+                        <button class="search-btn" onclick="search('duckduckgo')">DuckDuckGo</button>
+                        <button class="search-btn" onclick="search('bing')">Bing</button>
+                        <button class="search-btn" onclick="search('yahoo')">Yahoo</button>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <!-- Interactive Tools Section -->
         <section class="section">
@@ -110,25 +138,9 @@
                     <span class="tool-icon">🧮</span>
                     <span class="tool-name" data-en="Calculator" data-hu="Számológép">Számológép</span>
                 </button>
-                <button class="tool-card glass-card" data-tool="color-picker">
-                    <span class="tool-icon">🎨</span>
-                    <span class="tool-name" data-en="Color Picker" data-hu="Színválasztó">Színválasztó</span>
-                </button>
                 <button class="tool-card glass-card" data-tool="unit-converter">
                     <span class="tool-icon">🔄</span>
                     <span class="tool-name" data-en="Unit Converter" data-hu="Mértékegység">Mértékegység</span>
-                </button>
-                <button class="tool-card glass-card" data-tool="qr-generator">
-                    <span class="tool-icon">📱</span>
-                    <span class="tool-name" data-en="QR Generator" data-hu="QR Generátor">QR Generátor</span>
-                </button>
-                <button class="tool-card glass-card" data-tool="exif-remover">
-                    <span class="tool-icon">🖼️</span>
-                    <span class="tool-name" data-en="EXIF Remover" data-hu="EXIF Eltávolító">EXIF Eltávolító</span>
-                </button>
-                <button class="tool-card glass-card" data-tool="reverse-search">
-                    <span class="tool-icon">🔍</span>
-                    <span class="tool-name" data-en="Reverse Image" data-hu="Képkeresés">Képkeresés</span>
                 </button>
                 <button class="tool-card glass-card" data-tool="notes-app">
                     <span class="tool-icon">📝</span>
@@ -145,188 +157,374 @@
             </div>
         </section>
 
-        <!-- AI & Research -->
-        <section class="section">
-            <h2 class="section-title" data-en="🤖 AI & Research" data-hu="🤖 AI és Kutatás">🤖 AI és Kutatás</h2>
-            <div class="link-grid">
-                <a href="https://chat.openai.com" target="_blank" class="link-card glass-card">
-                    <span class="link-icon">💬</span>
-                    <span class="link-name">ChatGPT</span>
-                </a>
-                <a href="https://gemini.google.com" target="_blank" class="link-card glass-card">
-                    <span class="link-icon">✨</span>
-                    <span class="link-name">Gemini</span>
-                </a>
-                <a href="https://www.perplexity.ai" target="_blank" class="link-card glass-card">
-                    <span class="link-icon">🔮</span>
-                    <span class="link-name">Perplexity</span>
-                </a>
+        <!-- Dev & Utility Tools -->
+        <div class="folder-section">
+            <div class="folder-header collapsed" onclick="toggleFolder(this)">
+                <h2 data-en="🛠️ Dev & Utility" data-hu="🛠️ Fejlesztői Eszközök">🛠️ Fejlesztői Eszközök</h2>
+                <span class="folder-toggle">🔽</span>
             </div>
-        </section>
+            <div class="folder-content collapsed">
+                <div class="tool-grid">
+                    <button class="tool-card glass-card" data-tool="markdown-preview">
+                        <span class="tool-icon">📝</span>
+                        <span class="tool-name" data-en="Markdown" data-hu="Markdown">Markdown</span>
+                    </button>
+                    <button class="tool-card glass-card" data-tool="base64">
+                        <span class="tool-icon">🔢</span>
+                        <span class="tool-name" data-en="Base64" data-hu="Base64">Base64</span>
+                    </button>
+                    <button class="tool-card glass-card" data-tool="password-generator">
+                        <span class="tool-icon">🔐</span>
+                        <span class="tool-name" data-en="Password Gen" data-hu="Jelszó">Jelszó</span>
+                    </button>
+                    <button class="tool-card glass-card" data-tool="lorem-ipsum">
+                        <span class="tool-icon">📄</span>
+                        <span class="tool-name" data-en="Lorem Ipsum" data-hu="Lorem Ipsum">Lorem Ipsum</span>
+                    </button>
+                    <button class="tool-card glass-card" data-tool="unit-converter">
+                        <span class="tool-icon">🔄</span>
+                        <span class="tool-name" data-en="Unit Converter" data-hu="Mértékegység">Mértékegység</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mini Games -->
+        <div class="folder-section">
+            <div class="folder-header collapsed" onclick="toggleFolder(this)">
+                <h2 data-en="🎮 Mini Games" data-hu="🎮 Mini Játékok">🎮 Mini Játékok</h2>
+                <span class="folder-toggle">🔽</span>
+            </div>
+            <div class="folder-content collapsed">
+                <div class="tool-grid">
+                    <button class="tool-card glass-card" data-tool="typing-test">
+                        <span class="tool-icon">⌨️</span>
+                        <span class="tool-name" data-en="Typing Test" data-hu="Gépelés">Gépelés</span>
+                    </button>
+                    <button class="tool-card glass-card" data-tool="quick-maths">
+                        <span class="tool-icon">🧮</span>
+                        <span class="tool-name" data-en="Quick Maths" data-hu="Matek">Matek</span>
+                    </button>
+                    <button class="tool-card glass-card" data-tool="dice-roller">
+                        <span class="tool-icon">🎲</span>
+                        <span class="tool-name" data-en="Dice Roller" data-hu="Kockadobás">Kockadobás</span>
+                    </button>
+                    <button class="tool-card glass-card" data-tool="magic-8-ball">
+                        <span class="tool-icon">🎱</span>
+                        <span class="tool-name" data-en="Magic 8 Ball" data-hu="Jós Gömb">Jós Gömb</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Language & Security -->
+        <div class="folder-section">
+            <div class="folder-header collapsed" onclick="toggleFolder(this)">
+                <h2 data-en="🔐 Language & Security" data-hu="🔐 Nyelv és Biztonság">🔐 Nyelv és Biztonság</h2>
+                <span class="folder-toggle">🔽</span>
+            </div>
+            <div class="folder-content collapsed">
+                <div class="tool-grid">
+                    <button class="tool-card glass-card" data-tool="translator">
+                        <span class="tool-icon">🗣️</span>
+                        <span class="tool-name" data-en="Translator" data-hu="Fordító">Fordító</span>
+                    </button>
+                    <button class="tool-card glass-card" data-tool="dictionary">
+                        <span class="tool-icon">📖</span>
+                        <span class="tool-name" data-en="Dictionary" data-hu="Szótár">Szótár</span>
+                    </button>
+                    <button class="tool-card glass-card" data-tool="password-strength">
+                        <span class="tool-icon">🛡️</span>
+                        <span class="tool-name" data-en="Pwd Strength" data-hu="Jelszó Erő">Jelszó Erő</span>
+                    </button>
+                    <button class="tool-card glass-card" data-tool="hash-generator">
+                        <span class="tool-icon">#️⃣</span>
+                        <span class="tool-name" data-en="Hash Gen" data-hu="Hash Gen">Hash Gen</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Study Tools -->
+        <div class="folder-section">
+            <div class="folder-header" onclick="toggleFolder(this)">
+                <h2 data-en="📚 Study Tools" data-hu="📚 Tanulási Eszközök">📚 Tanulási Eszközök</h2>
+                <span class="folder-toggle">🔽</span>
+            </div>
+            <div class="folder-content">
+                <div class="tool-grid">
+                    <button class="tool-card glass-card" data-tool="word-counter">
+                        <span class="tool-icon">📝</span>
+                        <span class="tool-name" data-en="Word Counter" data-hu="Szószámláló">Szószámláló</span>
+                    </button>
+                    <button class="tool-card glass-card" data-tool="todo-list">
+                        <span class="tool-icon">✅</span>
+                        <span class="tool-name" data-en="Todo List" data-hu="Teendők">Teendők</span>
+                    </button>
+                    <button class="tool-card glass-card" data-tool="habit-tracker">
+                        <span class="tool-icon">📅</span>
+                        <span class="tool-name" data-en="Habit Tracker" data-hu="Szokáskövető">Szokáskövető</span>
+                    </button>
+                    <button class="tool-card glass-card" data-tool="flashcards">
+                        <span class="tool-icon">🗂️</span>
+                        <span class="tool-name" data-en="Flashcards" data-hu="Tanulókártyák">Tanulókártyák</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- AI & Research -->
+        <div class="folder-section">
+            <div class="folder-header" onclick="toggleFolder(this)">
+                <h2 data-en="🤖 AI & Research" data-hu="🤖 AI és Kutatás">🤖 AI és Kutatás</h2>
+                <span class="folder-toggle">🔽</span>
+            </div>
+            <div class="folder-content">
+                <div class="link-grid">
+                    <a href="https://chat.openai.com" target="_blank" class="link-card glass-card">
+                        <span class="link-icon">💬</span>
+                        <span class="link-name">ChatGPT</span>
+                    </a>
+                    <a href="https://gemini.google.com" target="_blank" class="link-card glass-card">
+                        <span class="link-icon">✨</span>
+                        <span class="link-name">Gemini</span>
+                    </a>
+                    <a href="https://www.perplexity.ai" target="_blank" class="link-card glass-card">
+                        <span class="link-icon">🔮</span>
+                        <span class="link-name">Perplexity</span>
+                    </a>
+                </div>
+            </div>
+        </div>
 
         <!-- Creative Tools -->
-        <section class="section">
-            <h2 class="section-title" data-en="🎨 Creative Tools" data-hu="🎨 Kreatív Eszközök">🎨 Kreatív Eszközök</h2>
-            <div class="link-grid">
-                <a href="https://www.canva.com" target="_blank" class="link-card glass-card">
-                    <span class="link-icon">🎨</span>
-                    <span class="link-name">Canva</span>
-                </a>
-                <a href="https://jspaint.app" target="_blank" class="link-card glass-card">
-                    <span class="link-icon">🖌️</span>
-                    <span class="link-name">Paint</span>
-                </a>
-                <a href="https://www.autodraw.com" target="_blank" class="link-card glass-card">
-                    <span class="link-icon">✏️</span>
-                    <span class="link-name">AutoDraw</span>
-                </a>
+        <div class="folder-section">
+            <div class="folder-header collapsed" onclick="toggleFolder(this)">
+                <h2 data-en="🎨 Creative Tools" data-hu="🎨 Kreatív Eszközök">🎨 Kreatív Eszközök</h2>
+                <span class="folder-toggle">🔽</span>
             </div>
-        </section>
+            <div class="folder-content collapsed">
+                <div class="tool-grid">
+                    <button class="tool-card glass-card" data-tool="gradient-generator">
+                        <span class="tool-icon">🌈</span>
+                        <span class="tool-name" data-en="Gradient Gen" data-hu="Gradiens">Gradiens</span>
+                    </button>
+                    <button class="tool-card glass-card" data-tool="palette-generator">
+                        <span class="tool-icon">🎨</span>
+                        <span class="tool-name" data-en="Palette Gen" data-hu="Paletta">Paletta</span>
+                    </button>
+                    <button class="tool-card glass-card" data-tool="ascii-art">
+                        <span class="tool-icon">💻</span>
+                        <span class="tool-name" data-en="ASCII Art" data-hu="ASCII Art">ASCII Art</span>
+                    </button>
+                    <button class="tool-card glass-card" data-tool="color-picker">
+                        <span class="tool-icon">🎨</span>
+                        <span class="tool-name" data-en="Color Picker" data-hu="Színválasztó">Színválasztó</span>
+                    </button>
+                    <button class="tool-card glass-card" data-tool="qr-generator">
+                        <span class="tool-icon">📱</span>
+                        <span class="tool-name" data-en="QR Generator" data-hu="QR Kód">QR Kód</span>
+                    </button>
+                    <button class="tool-card glass-card" data-tool="exif-remover">
+                        <span class="tool-icon">🖼️</span>
+                        <span class="tool-name" data-en="EXIF Remover" data-hu="EXIF Törlő">EXIF Törlő</span>
+                    </button>
+                    <button class="tool-card glass-card" data-tool="reverse-search">
+                        <span class="tool-icon">🔍</span>
+                        <span class="tool-name" data-en="Reverse Search" data-hu="Képkereső">Képkereső</span>
+                    </button>
+                </div>
+                <div class="link-grid"
+                    style="margin-top: 1rem; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 1rem;">
+                    <a href="https://www.canva.com" target="_blank" class="link-card glass-card">
+                        <span class="link-icon">🎨</span>
+                        <span class="link-name">Canva</span>
+                    </a>
+                    <a href="https://jspaint.app" target="_blank" class="link-card glass-card">
+                        <span class="link-icon">🖌️</span>
+                        <span class="link-name">Paint</span>
+                    </a>
+                    <a href="https://www.autodraw.com" target="_blank" class="link-card glass-card">
+                        <span class="link-icon">✏️</span>
+                        <span class="link-name">AutoDraw</span>
+                    </a>
+                </div>
+            </div>
+        </div>
 
         <!-- Game Dev Tools -->
-        <section class="section">
-            <h2 class="section-title" data-en="🎮 Game Development" data-hu="🎮 Játékfejlesztés">🎮 Játékfejlesztés</h2>
-            <div class="link-grid">
-                <a href="https://narrat.dev" target="_blank" class="link-card glass-card">
-                    <span class="link-icon">📖</span>
-                    <span class="link-name">Narrat</span>
-                </a>
-                <a href="https://twinery.org" target="_blank" class="link-card glass-card">
-                    <span class="link-icon">🕸️</span>
-                    <span class="link-name">Twine</span>
-                </a>
-                <a href="https://make.bitsy.org" target="_blank" class="link-card glass-card">
-                    <span class="link-icon">🎲</span>
-                    <span class="link-name">Bitsy</span>
-                </a>
+        <div class="folder-section">
+            <div class="folder-header collapsed" onclick="toggleFolder(this)">
+                <h2 data-en="🎮 Game Development" data-hu="🎮 Játékfejlesztés">🎮 Játékfejlesztés</h2>
+                <span class="folder-toggle">🔽</span>
             </div>
-        </section>
+            <div class="folder-content collapsed">
+                <div class="link-grid">
+                    <a href="https://narrat.dev" target="_blank" class="link-card glass-card">
+                        <span class="link-icon">📝</span>
+                        <span class="link-name">Narrat</span>
+                    </a>
+                    <a href="https://twinery.org" target="_blank" class="link-card glass-card">
+                        <span class="link-icon">🧶</span>
+                        <span class="link-name">Twine</span>
+                    </a>
+                    <a href="https://bitsy.org" target="_blank" class="link-card glass-card">
+                        <span class="link-icon">👾</span>
+                        <span class="link-name">Bitsy</span>
+                    </a>
+                </div>
+            </div>
+        </div>
 
         <!-- Coding Platforms -->
-        <section class="section">
-            <h2 class="section-title" data-en="💻 Coding Platforms" data-hu="💻 Programozási Platformok">💻 Programozási
-                Platformok</h2>
-            <div class="link-grid">
-                <a href="https://codehs.com" target="_blank" class="link-card glass-card">
-                    <span class="link-icon">🏫</span>
-                    <span class="link-name">CodeHS</span>
-                </a>
-                <a href="https://arcade.makecode.com" target="_blank" class="link-card glass-card">
-                    <span class="link-icon">🕹️</span>
-                    <span class="link-name">MakeCode</span>
-                </a>
-                <a href="https://code.org" target="_blank" class="link-card glass-card">
-                    <span class="link-icon">📚</span>
-                    <span class="link-name">Code.org</span>
-                </a>
-                <a href="https://scratch.mit.edu" target="_blank" class="link-card glass-card">
-                    <span class="link-icon">🐱</span>
-                    <span class="link-name">Scratch</span>
-                </a>
-                <a href="https://brilliant.org" target="_blank" class="link-card glass-card">
-                    <span class="link-icon">💡</span>
-                    <span class="link-name">Brilliant</span>
-                </a>
-                <a href="https://www.w3schools.com" target="_blank" class="link-card glass-card">
-                    <span class="link-icon">🌐</span>
-                    <span class="link-name">W3Schools</span>
-                </a>
+        <div class="folder-section">
+            <div class="folder-header collapsed" onclick="toggleFolder(this)">
+                <h2 data-en="💻 Coding Platforms" data-hu="💻 Programozás">💻 Programozás</h2>
+                <span class="folder-toggle">🔽</span>
             </div>
-        </section>
+            <div class="folder-content collapsed">
+                <div class="link-grid">
+                    <a href="https://codehs.com" target="_blank" class="link-card glass-card">
+                        <span class="link-icon">🏫</span>
+                        <span class="link-name">CodeHS</span>
+                    </a>
+                    <a href="https://makecode.microbit.org" target="_blank" class="link-card glass-card">
+                        <span class="link-icon">🤖</span>
+                        <span class="link-name">MakeCode</span>
+                    </a>
+                    <a href="https://code.org" target="_blank" class="link-card glass-card">
+                        <span class="link-icon">👩‍💻</span>
+                        <span class="link-name">Code.org</span>
+                    </a>
+                    <a href="https://scratch.mit.edu" target="_blank" class="link-card glass-card">
+                        <span class="link-icon">🐱</span>
+                        <span class="link-name">Scratch</span>
+                    </a>
+                    <a href="https://brilliant.org" target="_blank" class="link-card glass-card">
+                        <span class="link-icon">💡</span>
+                        <span class="link-name">Brilliant</span>
+                    </a>
+                    <a href="https://www.w3schools.com" target="_blank" class="link-card glass-card">
+                        <span class="link-icon">📚</span>
+                        <span class="link-name">W3Schools</span>
+                    </a>
+                </div>
+            </div>
+        </div>
 
         <!-- Daily Games -->
-        <section class="section">
-            <h2 class="section-title" data-en="🎯 Daily Games" data-hu="🎯 Napi Játékok">🎯 Napi Játékok</h2>
-            <div class="link-grid">
-                <a href="https://www.nytimes.com/games/wordle" target="_blank" class="link-card glass-card">
-                    <span class="link-icon">🔤</span>
-                    <span class="link-name">Wordle</span>
-                </a>
-                <a href="https://www.nytimes.com/games/connections" target="_blank" class="link-card glass-card">
-                    <span class="link-icon">🔗</span>
-                    <span class="link-name">Connections</span>
-                </a>
-                <a href="https://foodguessr.com" target="_blank" class="link-card glass-card">
-                    <span class="link-icon">🍕</span>
-                    <span class="link-name">FoodGuessr</span>
-                </a>
-                <a href="https://timeguessr.com" target="_blank" class="link-card glass-card">
-                    <span class="link-icon">⏰</span>
-                    <span class="link-name">TimeGuessr</span>
-                </a>
-                <a href="https://zty.pe" target="_blank" class="link-card glass-card">
-                    <span class="link-icon">⌨️</span>
-                    <span class="link-name">Z-Type</span>
-                </a>
+        <div class="folder-section">
+            <div class="folder-header collapsed" onclick="toggleFolder(this)">
+                <h2 data-en="🎲 Daily Games" data-hu="🎲 Napi Játékok">🎲 Napi Játékok</h2>
+                <span class="folder-toggle">🔽</span>
             </div>
-        </section>
+            <div class="folder-content collapsed">
+                <div class="link-grid">
+                    <a href="https://www.nytimes.com/games/wordle/index.html" target="_blank"
+                        class="link-card glass-card">
+                        <span class="link-icon">🔤</span>
+                        <span class="link-name">Wordle</span>
+                    </a>
+                    <a href="https://www.nytimes.com/games/connections" target="_blank" class="link-card glass-card">
+                        <span class="link-icon">🔗</span>
+                        <span class="link-name">Connections</span>
+                    </a>
+                    <a href="https://foodguessr.com" target="_blank" class="link-card glass-card">
+                        <span class="link-icon">🍔</span>
+                        <span class="link-name">FoodGuessr</span>
+                    </a>
+                    <a href="https://timeguessr.com" target="_blank" class="link-card glass-card">
+                        <span class="link-icon">📅</span>
+                        <span class="link-name">TimeGuessr</span>
+                    </a>
+                    <a href="https://zty.pe" target="_blank" class="link-card glass-card">
+                        <span class="link-icon">⌨️</span>
+                        <span class="link-name">Z-Type</span>
+                    </a>
+                </div>
+            </div>
+        </div>
 
         <!-- Educational Resources -->
-        <section class="section">
-            <h2 class="section-title" data-en="📚 Educational Resources" data-hu="📚 Oktatási Források">📚 Oktatási
-                Források</h2>
-            <div class="link-grid">
-                <a href="https://educationalhub.in" target="_blank" class="link-card glass-card">
-                    <span class="link-icon">🎓</span>
-                    <span class="link-name">Educational Hub</span>
-                </a>
-                <a href="https://ghoul3.notion.site" target="_blank" class="link-card glass-card">
-                    <span class="link-icon">👻</span>
-                    <span class="link-name">Ghoul Resources</span>
-                </a>
-                <a href="https://fmhy.net" target="_blank" class="link-card glass-card">
-                    <span class="link-icon">🔓</span>
-                    <span class="link-name">FMHY</span>
-                </a>
-                <a href="https://nkp.hu" target="_blank" class="link-card glass-card">
-                    <span class="link-icon">📖</span>
-                    <span class="link-name">NKP</span>
-                </a>
+        <div class="folder-section">
+            <div class="folder-header collapsed" onclick="toggleFolder(this)">
+                <h2 data-en="📚 Educational Resources" data-hu="📚 Oktatási Források">📚 Oktatási Források</h2>
+                <span class="folder-toggle">🔽</span>
             </div>
-        </section>
+            <div class="folder-content collapsed">
+                <div class="link-grid">
+                    <a href="https://educationalhub.in" target="_blank" class="link-card glass-card">
+                        <span class="link-icon">🎓</span>
+                        <span class="link-name">EduHub</span>
+                    </a>
+                    <a href="https://ghoul-resources.notion.site/Ghoul-Resources-2964c92683024c0480165509743015b6"
+                        target="_blank" class="link-card glass-card">
+                        <span class="link-icon">👻</span>
+                        <span class="link-name">Ghoul Res.</span>
+                    </a>
+                    <a href="https://fmhy.net" target="_blank" class="link-card glass-card">
+                        <span class="link-icon">🏴‍☠️</span>
+                        <span class="link-name">FMHY</span>
+                    </a>
+                    <a href="https://www.nkp.hu" target="_blank" class="link-card glass-card">
+                        <span class="link-icon">🇭🇺</span>
+                        <span class="link-name">NKP.hu</span>
+                    </a>
+                </div>
+            </div>
+        </div>
 
         <!-- Map & Data Tools -->
-        <section class="section">
-            <h2 class="section-title" data-en="🗺️ Map & Data Tools" data-hu="🗺️ Térkép és Adatok">🗺️ Térkép és Adatok
-            </h2>
-            <div class="link-grid">
-                <a href="https://overpass-turbo.eu" target="_blank" class="link-card glass-card">
-                    <span class="link-icon">🗺️</span>
-                    <span class="link-name">Overpass Turbo</span>
-                </a>
-                <a href="https://flourish.studio" target="_blank" class="link-card glass-card">
-                    <span class="link-icon">📊</span>
-                    <span class="link-name">Flourish</span>
-                </a>
-                <a href="https://www.mapbox.com" target="_blank" class="link-card glass-card">
-                    <span class="link-icon">🌍</span>
-                    <span class="link-name">Mapbox</span>
-                </a>
-                <a href="https://wikimapia.org" target="_blank" class="link-card glass-card">
-                    <span class="link-icon">🌐</span>
-                    <span class="link-name">Wikimapia</span>
-                </a>
-                <a href="https://osintframework.com" target="_blank" class="link-card glass-card">
-                    <span class="link-icon">🔍</span>
-                    <span class="link-name">OSINT Framework</span>
-                </a>
+        <div class="folder-section">
+            <div class="folder-header collapsed" onclick="toggleFolder(this)">
+                <h2 data-en="🗺️ Map & Data Tools" data-hu="🗺️ Térkép és Adat">🗺️ Térkép és Adat</h2>
+                <span class="folder-toggle">🔽</span>
             </div>
-        </section>
+            <div class="folder-content collapsed">
+                <div class="link-grid">
+                    <a href="https://overpass-turbo.eu" target="_blank" class="link-card glass-card">
+                        <span class="link-icon">🛣️</span>
+                        <span class="link-name">Overpass</span>
+                    </a>
+                    <a href="https://flourish.studio" target="_blank" class="link-card glass-card">
+                        <span class="link-icon">📊</span>
+                        <span class="link-name">Flourish</span>
+                    </a>
+                    <a href="https://www.mapbox.com" target="_blank" class="link-card glass-card">
+                        <span class="link-icon">📍</span>
+                        <span class="link-name">Mapbox</span>
+                    </a>
+                    <a href="https://wikimapia.org" target="_blank" class="link-card glass-card">
+                        <span class="link-icon">🌍</span>
+                        <span class="link-name">Wikimapia</span>
+                    </a>
+                    <a href="https://osintframework.com" target="_blank" class="link-card glass-card">
+                        <span class="link-icon">🕵️</span>
+                        <span class="link-name">OSINT</span>
+                    </a>
+                </div>
+            </div>
+        </div>
 
         <!-- Fun & Misc -->
-        <section class="section">
-            <h2 class="section-title" data-en="🌟 Fun & Misc" data-hu="🌟 Egyéb">🌟 Egyéb</h2>
-            <div class="link-grid">
-                <a href="https://radio.garden" target="_blank" class="link-card glass-card">
-                    <span class="link-icon">📻</span>
-                    <span class="link-name">Radio Garden</span>
-                </a>
-                <a href="https://www.half.earth/maps" target="_blank" class="link-card glass-card">
-                    <span class="link-icon">🌍</span>
-                    <span class="link-name">Half-Earth</span>
-                </a>
+        <div class="folder-section">
+            <div class="folder-header collapsed" onclick="toggleFolder(this)">
+                <h2 data-en="🎉 Fun & Misc" data-hu="🎉 Szórakozás">🎉 Szórakozás</h2>
+                <span class="folder-toggle">🔽</span>
             </div>
-        </section>
+            <div class="folder-content collapsed">
+                <div class="link-grid">
+                    <a href="http://radio.garden" target="_blank" class="link-card glass-card">
+                        <span class="link-icon">📻</span>
+                        <span class="link-name">Radio Garden</span>
+                    </a>
+                    <a href="https://www.half-earthproject.org/maps/" target="_blank" class="link-card glass-card">
+                        <span class="link-icon">🌎</span>
+                        <span class="link-name">Half-Earth</span>
+                    </a>
+                </div>
+            </div>
+        </div>
 
         <!-- Cheatsheets -->
         <section class="section">
@@ -361,6 +559,11 @@
     <!-- Scripts -->
     <script src="script.js"></script>
     <script src="tools/tools.js"></script>
+    <script src="tools/study-tools.js"></script>
+    <script src="tools/creative-tools.js"></script>
+    <script src="tools/dev-tools.js"></script>
+    <script src="tools/game-tools.js"></script>
+    <script src="tools/security-tools.js"></script>
 </body>
 
 </html>

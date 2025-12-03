@@ -1,90 +1,186 @@
 /* Additional Modal Improvements for Better Visibility */
-#modal-body h2 {
-    color: #ffffff;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-    margin-bottom: var(--spacing-lg);
+
+/* Force all modal text to be white with strong contrast */
+#modal-body,
+#modal-body * {
+    color: #ffffff !important;
 }
 
-#modal-body h3,
-#modal-body h4 {
-    color: #f0f0f0;
+#modal-body h2 {
+    color: #ffffff !important;
+    text-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
+    margin-bottom: var(--spacing-lg);
+    font-size: 2rem;
+}
+
+#modal-body h3 {
+    color: #fbbf24 !important;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
     margin-top: var(--spacing-md);
     margin-bottom: var(--spacing-sm);
+    font-size: 1.5rem;
+}
+
+#modal-body h4 {
+    color: #f0f0f0 !important;
+    margin-top: var(--spacing-sm);
+    margin-bottom: var(--spacing-xs);
 }
 
 #modal-body p,
 #modal-body label,
-#modal-body span {
-    color: #e0e0e0;
+#modal-body span:not(.tool-icon):not(.link-icon),
+#modal-body div,
+#modal-body li {
+    color: #ffffff !important;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 }
 
+#modal-body ul {
+    color: #ffffff !important;
+}
+
+#modal-body ul li {
+    color: #ffffff !important;
+    line-height: 2.2;
+    font-size: 1.15rem;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+    margin-bottom: 0.5rem;
+}
+
+#modal-body strong {
+    color: #fbbf24 !important;
+    font-weight: 700;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+/* Input fields */
 #modal-body input,
-#modal-body button,
-#modal-body select {
-    background: rgba(255, 255, 255, 0.15);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    color: #ffffff;
-    padding: 0.5rem 1rem;
-    border-radius: 8px;
+#modal-body select,
+#modal-body textarea {
+    background: rgba(255, 255, 255, 0.2) !important;
+    border: 2px solid rgba(255, 255, 255, 0.4) !important;
+    color: #ffffff !important;
+    padding: 0.75rem 1rem !important;
+    border-radius: 8px !important;
+    font-size: 1rem !important;
 }
 
 #modal-body input::placeholder {
-    color: rgba(255, 255, 255, 0.5);
+    color: rgba(255, 255, 255, 0.6) !important;
 }
 
+/* Buttons */
 #modal-body button {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    border: none;
-    color: white;
-    cursor: pointer;
-    font-weight: 600;
-    transition: all 0.3s ease;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+    border: none !important;
+    color: white !important;
+    cursor: pointer !important;
+    font-weight: 600 !important;
+    transition: all 0.3s ease !important;
+    padding: 0.75rem 1.5rem !important;
+    border-radius: 8px !important;
+    font-size: 1rem !important;
 }
 
 #modal-body button:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+    transform: translateY(-2px) !important;
+    box-shadow: 0 6px 16px rgba(102, 126, 234, 0.5) !important;
 }
 
+/* Mode toggle buttons */
 .timer-mode-btn,
 .calc-mode-btn {
     background: rgba(255, 255, 255, 0.2) !important;
-    border: 1px solid rgba(255, 255, 255, 0.3) !important;
+    border: 2px solid rgba(255, 255, 255, 0.4) !important;
     color: white !important;
     padding: 0.75rem 1.5rem !important;
     border-radius: 8px !important;
     cursor: pointer !important;
-}
-
-/* Improve calculator button visibility */
-#calc-buttons button {
-    background: rgba(255, 255, 255, 0.15) !important;
-    border: 1px solid rgba(255, 255, 255, 0.3) !important;
-    color: white !important;
     font-weight: 600 !important;
 }
 
+/* Calculator buttons */
+#calc-buttons button {
+    background: rgba(255, 255, 255, 0.2) !important;
+    border: 1px solid rgba(255, 255, 255, 0.4) !important;
+    color: white !important;
+    font-weight: 700 !important;
+    font-size: 1.2rem !important;
+}
+
 #calc-buttons button:hover {
-    background: rgba(255, 255, 255, 0.25) !important;
+    background: rgba(255, 255, 255, 0.3) !important;
 }
 
-/* Metronome improvements */
-#metronome-bpm {
-    color: #667eea;
-    font-weight: 700;
-    text-shadow: 0 2px 8px rgba(102, 126, 234, 0.4);
+#calc-display {
+    background: rgba(255, 255, 255, 0.15) !important;
+    color: #fbbf24 !important;
+    font-size: 2rem !important;
+    font-weight: 700 !important;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3) !important;
 }
 
-/* Drop zone styling */
+/* Timer and display improvements */
+#metronome-bpm,
+#pomodoro-display,
+#timer-display,
+#stopwatch-display {
+    color: #fbbf24 !important;
+    font-weight: 700 !important;
+    text-shadow: 0 2px 8px rgba(251, 191, 36, 0.8) !important;
+}
+
+#pomodoro-session {
+    color: #ffffff !important;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4) !important;
+}
+
+/* Slider improvements */
+#modal-body input[type="range"] {
+    background: transparent !important;
+}
+
+#modal-body input[type="number"] {
+    background: rgba(255, 255, 255, 0.2) !important;
+    border: 2px solid rgba(255, 255, 255, 0.4) !important;
+    color: #ffffff !important;
+    font-weight: 600 !important;
+    text-align: center !important;
+}
+
+/* Drop zones */
 #drop-zone,
 #reverse-drop-zone {
-    background: rgba(255, 255, 255, 0.1);
-    border: 3px dashed rgba(102, 126, 234, 0.6) !important;
+    background: rgba(255, 255, 255, 0.1) !important;
+    border: 3px dashed rgba(102, 126, 234, 0.8) !important;
     color: white !important;
 }
 
 #drop-zone p,
 #reverse-drop-zone p {
     color: white !important;
-    font-size: 1.1rem;
+    font-size: 1.2rem !important;
+    font-weight: 600 !important;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.4) !important;
+}
+
+/* Canvas elements */
+#ruler-canvas {
+    background: rgba(255, 255, 255, 0.1) !important;
+    border: 2px solid rgba(102, 126, 234, 0.6) !important;
+}
+
+#ruler-measurement {
+    color: #fbbf24 !important;
+    font-weight: 700 !important;
+    font-size: 1.2rem !important;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.4) !important;
+}
+
+/* Ensure readability on all text */
+#modal-body * {
+    text-rendering: optimizeLegibility !important;
+    -webkit-font-smoothing: antialiased !important;
+    -moz-osx-font-smoothing: grayscale !important;
 }

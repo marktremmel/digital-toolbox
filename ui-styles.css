@@ -1,0 +1,33 @@
+/* Notification Toast */
+.notification {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 1rem 2rem;
+    border-radius: 8px;
+    transform: translateY(100px);
+    transition: transform 0.3s ease;
+    z-index: 3000;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.notification.show {
+    transform: translateY(0);
+}
+
+/* Favorites Section */
+.favorites-container {
+    margin-bottom: var(--spacing-xl);
+    padding: var(--spacing-md);
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: var(--radius-lg);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.favorites-container h3 {
+    margin-bottom: var(--spacing-md);
+    color: var(--text-primary);
+    font-family: 'Outfit', sans-serif;
+}

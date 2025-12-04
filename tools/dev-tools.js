@@ -136,3 +136,292 @@ function initLoremIpsum() {
         alert('Copied!');
     };
 }
+
+// ==================== JSON VIEWER ====================
+function initJsonViewer() {
+    const input = document.getElementById('json-input');
+    const output = document.getElementById('json-output');
+    const errorMsg = document.getElementById('json-error');
+
+    window.formatJson = () => {
+        try {
+            const json = JSON.parse(input.value);
+            output.innerHTML = syntaxHighlight(JSON.stringify(json, null, 4));
+            errorMsg.style.display = 'none';
+            if (window.haptics) window.haptics.success();
+        } catch (e) {
+            errorMsg.textContent = "Invalid JSON: " + e.message;
+            errorMsg.style.display = 'block';
+            if (window.haptics) window.haptics.error();
+        }
+    };
+
+    window.minifyJson = () => {
+        try {
+            const json = JSON.parse(input.value);
+            input.value = JSON.stringify(json);
+            output.innerHTML = '';
+            errorMsg.style.display = 'none';
+            if (window.haptics) window.haptics.success();
+        } catch (e) {
+            errorMsg.textContent = "Invalid JSON: " + e.message;
+            errorMsg.style.display = 'block';
+            if (window.haptics) window.haptics.error();
+        }
+    };
+
+    window.copyJson = () => {
+        if (output.textContent) {
+            navigator.clipboard.writeText(output.textContent);
+            alert('Formatted JSON copied!');
+        } else {
+            navigator.clipboard.writeText(input.value);
+            alert('Input JSON copied!');
+        }
+    };
+
+    function syntaxHighlight(json) {
+        json = json.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+        return json.replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g, function (match) {
+            let cls = 'number';
+            if (/^"/.test(match)) {
+                if (/:$/.test(match)) {
+                    cls = 'key';
+                } else {
+                    cls = 'string';
+                }
+            } else if (/true|false/.test(match)) {
+                cls = 'boolean';
+            } else if (/null/.test(match)) {
+                cls = 'null';
+            }
+            return '<span class="' + cls + '">' + match + '</span>';
+        });
+    }
+}
+
+// ==================== REGEX TESTER ====================
+function initRegexTester() {
+    const patternInput = document.getElementById('regex-pattern');
+    const flagsInput = document.getElementById('regex-flags');
+    const textInput = document.getElementById('regex-input');
+
+    if (!patternInput) return;
+
+    const updateResults = () => {
+        const pattern = patternInput.value;
+        const flags = flagsInput.value;
+        const text = textInput.value;
+        const output = document.getElementById('regex-output');
+        const matchesDiv = document.getElementById('regex-matches');
+
+        if (!pattern || !text) {
+            output.innerHTML = text || '<span style="opacity: 0.5;">Enter pattern and text...</span>';
+            matchesDiv.innerHTML = '';
+            return;
+        }
+
+        try {
+            const regex = new RegExp(pattern, flags);
+            const matches = text.match(regex) || [];
+
+            // Highlight matches in text
+            let highlighted = text.replace(regex, (match) =>
+                `<mark style="background: #fbbf24; color: #000; padding: 0 2px; border-radius: 2px;">${match}</mark>`
+            );
+            output.innerHTML = highlighted;
+
+            // Show match info
+            if (matches.length > 0) {
+                matchesDiv.innerHTML = `<strong>${matches.length} match${matches.length > 1 ? 'es' : ''}</strong>: ${matches.slice(0, 10).map(m => `"${m}"`).join(', ')}${matches.length > 10 ? '...' : ''}`;
+                if (window.haptics) window.haptics.light();
+            } else {
+                matchesDiv.innerHTML = '<span style="color: #ef4444;">No matches found</span>';
+            }
+        } catch (e) {
+            output.innerHTML = `<span style="color: #ef4444;">Invalid regex: ${e.message}</span>`;
+            matchesDiv.innerHTML = '';
+        }
+    };
+
+    patternInput.addEventListener('input', updateResults);
+    flagsInput.addEventListener('input', updateResults);
+    textInput.addEventListener('input', updateResults);
+}
+
+// ==================== CODE BEAUTIFIER ====================
+function initCodeBeautifier() {
+    const langSelect = document.getElementById('beautify-lang');
+    const input = document.getElementById('beautify-input');
+
+    if (!langSelect) return;
+
+    // Auto-detect language based on content
+    input.addEventListener('input', () => {
+        const text = input.value.trim();
+        if (text.startsWith('<!DOCTYPE') || text.startsWith('<html') || text.match(/^<[a-z]+/i)) {
+            langSelect.value = 'html';
+        } else if (text.includes('{') && (text.includes(':') || text.includes('px') || text.includes('color'))) {
+            langSelect.value = 'css';
+        } else if (text.includes('function') || text.includes('const ') || text.includes('let ') || text.includes('=>')) {
+            langSelect.value = 'js';
+        }
+    });
+}
+
+window.beautifyCode = function () {
+    const lang = document.getElementById('beautify-lang').value;
+    const input = document.getElementById('beautify-input').value;
+    const output = document.getElementById('beautify-output');
+
+    try {
+        let result = '';
+        switch (lang) {
+            case 'html':
+                result = beautifyHTML(input);
+                break;
+            case 'css':
+                result = beautifyCSS(input);
+                break;
+            case 'js':
+                result = beautifyJS(input);
+                break;
+        }
+        output.value = result;
+        if (window.haptics) window.haptics.success();
+    } catch (e) {
+        output.value = 'Error: ' + e.message;
+        if (window.haptics) window.haptics.error();
+    }
+};
+
+function beautifyHTML(html) {
+    let formatted = '';
+    let indent = 0;
+    const tab = '  ';
+
+    // Split by tags
+    const parts = html.replace(/>\s*</g, '>\n<').split('\n');
+
+    parts.forEach(part => {
+        part = part.trim();
+        if (!part) return;
+
+        // Check if closing tag
+        if (part.match(/^<\/\w/)) {
+            indent = Math.max(0, indent - 1);
+        }
+
+        formatted += tab.repeat(indent) + part + '\n';
+
+        // Check if opening tag (not self-closing)
+        if (part.match(/^<\w[^>]*[^\/]>$/)) {
+            indent++;
+        }
+    });
+
+    return formatted.trim();
+}
+
+function beautifyCSS(css) {
+    return css
+        .replace(/\s*{\s*/g, ' {\n  ')
+        .replace(/\s*}\s*/g, '\n}\n')
+        .replace(/;\s*/g, ';\n  ')
+        .replace(/\n  }/g, '\n}')
+        .replace(/\n\n+/g, '\n\n')
+        .trim();
+}
+
+function beautifyJS(js) {
+    let formatted = '';
+    let indent = 0;
+    const tab = '  ';
+
+    // Simple tokenization
+    const lines = js.split(/[;\n]+/).filter(l => l.trim());
+
+    lines.forEach(line => {
+        line = line.trim();
+        if (!line) return;
+
+        // Decrease indent for closing braces
+        if (line.includes('}') && !line.includes('{')) {
+            indent = Math.max(0, indent - 1);
+        }
+
+        formatted += tab.repeat(indent) + line + ';\n';
+
+        // Increase indent for opening braces
+        if (line.includes('{') && !line.includes('}')) {
+            indent++;
+        }
+    });
+
+    return formatted
+        .replace(/;;/g, ';')
+        .replace(/{\s*;/g, '{')
+        .replace(/;}/g, '}')
+        .trim();
+}
+
+window.copyBeautified = function () {
+    const output = document.getElementById('beautify-output');
+    navigator.clipboard.writeText(output.value);
+    if (window.haptics) window.haptics.success();
+    alert('Copied to clipboard!');
+};
+
+// ==================== DIFF CHECKER ====================
+function initDiffChecker() {
+    // Initialize with empty state
+}
+
+window.compareDiff = function () {
+    const text1 = document.getElementById('diff-text1').value;
+    const text2 = document.getElementById('diff-text2').value;
+    const output = document.getElementById('diff-output');
+
+    if (!text1 || !text2) {
+        output.innerHTML = '<span style="opacity: 0.5;">Enter text in both panels...</span>';
+        return;
+    }
+
+    const lines1 = text1.split('\n');
+    const lines2 = text2.split('\n');
+    const maxLines = Math.max(lines1.length, lines2.length);
+
+    let html = '';
+    let additions = 0;
+    let deletions = 0;
+
+    for (let i = 0; i < maxLines; i++) {
+        const line1 = lines1[i] || '';
+        const line2 = lines2[i] || '';
+
+        if (line1 === line2) {
+            html += `<div style="padding: 2px 8px;">${escapeHtml(line1) || '&nbsp;'}</div>`;
+        } else if (!line1) {
+            html += `<div style="padding: 2px 8px; background: rgba(16,185,129,0.3); color: #10b981;">+ ${escapeHtml(line2)}</div>`;
+            additions++;
+        } else if (!line2) {
+            html += `<div style="padding: 2px 8px; background: rgba(239,68,68,0.3); color: #ef4444;">- ${escapeHtml(line1)}</div>`;
+            deletions++;
+        } else {
+            html += `<div style="padding: 2px 8px; background: rgba(239,68,68,0.3); color: #ef4444;">- ${escapeHtml(line1)}</div>`;
+            html += `<div style="padding: 2px 8px; background: rgba(16,185,129,0.3); color: #10b981;">+ ${escapeHtml(line2)}</div>`;
+            additions++;
+            deletions++;
+        }
+    }
+
+    document.getElementById('diff-stats').innerHTML = `<span style="color: #10b981;">+${additions}</span> / <span style="color: #ef4444;">-${deletions}</span> changes`;
+    output.innerHTML = html;
+    if (window.haptics) window.haptics.light();
+};
+
+function escapeHtml(text) {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+}

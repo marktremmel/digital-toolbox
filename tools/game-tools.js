@@ -243,3 +243,461 @@ function initTypingTest() {
 
     window.startTypingTest(); // Auto start on load
 }
+
+// ==================== MEMORY GAME ====================
+let memoryCards = [];
+let memoryFlippedCards = [];
+let memoryMoves = 0;
+let memoryMatched = 0;
+let memoryTimer = null;
+let memoryTime = 0;
+let memoryLocked = false;
+
+function initMemoryGame() {
+    const bestScore = localStorage.getItem('memoryBest');
+    if (bestScore) {
+        document.getElementById('memory-best').innerText = bestScore;
+    }
+    startMemoryGame();
+}
+
+window.startMemoryGame = function () {
+    const grid = document.getElementById('memory-grid');
+    const emojis = ['🎉', '🎮', '🎵', '🎨', '🚀', '💎', '🌟', '🔥'];
+    const cards = [...emojis, ...emojis]; // 16 cards
+
+    // Reset state
+    memoryMoves = 0;
+    memoryMatched = 0;
+    memoryTime = 0;
+    memoryFlippedCards = [];
+    memoryLocked = false;
+
+    document.getElementById('memory-moves').innerText = '0';
+    document.getElementById('memory-time').innerText = '0s';
+
+    if (memoryTimer) clearInterval(memoryTimer);
+    memoryTimer = setInterval(() => {
+        memoryTime++;
+        document.getElementById('memory-time').innerText = `${memoryTime}s`;
+    }, 1000);
+
+    // Shuffle cards (Fisher-Yates)
+    for (let i = cards.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [cards[i], cards[j]] = [cards[j], cards[i]];
+    }
+
+    grid.innerHTML = cards.map((emoji, index) => `
+        <div class="memory-card" data-index="${index}" data-emoji="${emoji}" onclick="flipCard(this)"></div>
+    `).join('');
+};
+
+window.flipCard = function (card) {
+    if (memoryLocked) return;
+    if (card.classList.contains('flipped') || card.classList.contains('matched')) return;
+    if (memoryFlippedCards.length >= 2) return;
+
+    card.classList.add('flipped');
+    card.innerText = card.dataset.emoji;
+    memoryFlippedCards.push(card);
+
+    if (memoryFlippedCards.length === 2) {
+        memoryMoves++;
+        document.getElementById('memory-moves').innerText = memoryMoves;
+        checkMatch();
+    }
+};
+
+function checkMatch() {
+    const [card1, card2] = memoryFlippedCards;
+
+    if (card1.dataset.emoji === card2.dataset.emoji) {
+        card1.classList.add('matched');
+        card2.classList.add('matched');
+        memoryFlippedCards = [];
+        memoryMatched++;
+
+        if (memoryMatched === 8) {
+            clearInterval(memoryTimer);
+            const score = `${memoryMoves} moves in ${memoryTime}s`;
+            const best = localStorage.getItem('memoryBest');
+            if (!best || memoryMoves < parseInt(best)) {
+                localStorage.setItem('memoryBest', memoryMoves);
+                document.getElementById('memory-best').innerText = memoryMoves;
+            }
+            setTimeout(() => alert(`You won! ${score}`), 300);
+        }
+
+        if (window.haptics) window.haptics.success();
+    } else {
+        memoryLocked = true;
+        setTimeout(() => {
+            card1.classList.remove('flipped');
+            card2.classList.remove('flipped');
+            card1.innerText = '';
+            card2.innerText = '';
+            memoryFlippedCards = [];
+            memoryLocked = false;
+        }, 1000);
+    }
+}
+
+// ==================== IMAGE COMPRESSOR ====================
+let compressFile = null;
+let compressBlob = null;
+
+function initImageCompressor() {
+    const dropZone = document.getElementById('drop-zone-compress');
+    const fileInput = document.getElementById('compress-input');
+    const qualitySlider = document.getElementById('compress-quality');
+    const qualityVal = document.getElementById('compress-quality-val');
+    const downloadBtn = document.getElementById('compress-download');
+
+    if (!dropZone) return;
+
+    dropZone.addEventListener('click', () => fileInput.click());
+
+    dropZone.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        dropZone.classList.add('drag-over');
+    });
+
+    dropZone.addEventListener('dragleave', () => {
+        dropZone.classList.remove('drag-over');
+    });
+
+    dropZone.addEventListener('drop', (e) => {
+        e.preventDefault();
+        dropZone.classList.remove('drag-over');
+        if (e.dataTransfer.files.length) {
+            handleCompressFile(e.dataTransfer.files[0]);
+        }
+    });
+
+    fileInput.addEventListener('change', (e) => {
+        if (e.target.files.length) handleCompressFile(e.target.files[0]);
+    });
+
+    qualitySlider.addEventListener('input', (e) => {
+        qualityVal.innerText = `${e.target.value}%`;
+        if (compressFile) compressImage();
+    });
+
+    downloadBtn.addEventListener('click', () => {
+        if (compressBlob) {
+            const url = URL.createObjectURL(compressBlob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `compressed_${compressFile.name}`;
+            a.click();
+            URL.revokeObjectURL(url);
+            if (window.haptics) window.haptics.success();
+        }
+    });
+}
+
+function handleCompressFile(file) {
+    if (!file.type.match(/image\/(png|jpeg|jpg)/)) {
+        alert('Please upload a PNG or JPG image.');
+        return;
+    }
+
+    compressFile = file;
+    document.getElementById('drop-zone-compress').style.display = 'none';
+    document.getElementById('compress-editor').style.display = 'block';
+    document.getElementById('compress-orig-size').innerText = formatBytes(file.size);
+
+    const reader = new FileReader();
+    reader.onload = (e) => {
+        document.getElementById('compress-original').src = e.target.result;
+        compressImage();
+    };
+    reader.readAsDataURL(file);
+}
+
+function compressImage() {
+    const img = new Image();
+    img.src = document.getElementById('compress-original').src;
+
+    img.onload = () => {
+        const canvas = document.createElement('canvas');
+        canvas.width = img.width;
+        canvas.height = img.height;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0);
+
+        const quality = document.getElementById('compress-quality').value / 100;
+
+        canvas.toBlob((blob) => {
+            compressBlob = blob;
+            document.getElementById('compress-result').src = URL.createObjectURL(blob);
+            document.getElementById('compress-new-size').innerText = formatBytes(blob.size);
+
+            const savings = ((compressFile.size - blob.size) / compressFile.size * 100).toFixed(1);
+            const badge = document.getElementById('compress-savings');
+            badge.innerText = `-${savings}%`;
+            badge.style.background = savings > 0 ? '#10B981' : '#EF4444';
+
+            document.getElementById('compress-download').disabled = false;
+        }, compressFile.type, quality);
+    };
+}
+
+window.resetCompressor = function () {
+    compressFile = null;
+    compressBlob = null;
+    document.getElementById('drop-zone-compress').style.display = 'flex';
+    document.getElementById('compress-editor').style.display = 'none';
+    document.getElementById('compress-input').value = '';
+    document.getElementById('compress-download').disabled = true;
+};
+
+function formatBytes(bytes) {
+    if (bytes === 0) return '0 Bytes';
+    const k = 1024;
+    const sizes = ['Bytes', 'KB', 'MB'];
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+}
+
+// ==================== RANDOM NAME PICKER ====================
+let namesList = [];
+
+function initRandomNamePicker() {
+    namesList = JSON.parse(localStorage.getItem('sek_names')) || [];
+    renderNamesList();
+}
+
+function renderNamesList() {
+    const list = document.getElementById('names-list');
+    if (!list) return;
+
+    list.innerHTML = namesList.length === 0
+        ? '<p style="opacity: 0.7; text-align: center;">Add names below</p>'
+        : namesList.map((name, i) => `
+            <span class="name-tag" style="display: inline-block; background: rgba(255,255,255,0.1); padding: 0.25rem 0.5rem; border-radius: 4px; margin: 0.25rem;">
+                ${name} <button onclick="removeName(${i})" style="background: none; padding: 0; margin-left: 0.25rem; font-size: 0.8rem;">❌</button>
+            </span>
+        `).join('');
+}
+
+window.addName = function () {
+    const input = document.getElementById('name-input');
+    const name = input.value.trim();
+    if (name) {
+        namesList.push(name);
+        localStorage.setItem('sek_names', JSON.stringify(namesList));
+        input.value = '';
+        renderNamesList();
+    }
+};
+
+window.removeName = function (index) {
+    namesList.splice(index, 1);
+    localStorage.setItem('sek_names', JSON.stringify(namesList));
+    renderNamesList();
+};
+
+window.pickRandomName = function () {
+    if (namesList.length === 0) {
+        alert('Add some names first!');
+        return;
+    }
+
+    const result = document.getElementById('picked-name');
+    const btn = document.getElementById('pick-btn');
+    btn.disabled = true;
+
+    // Animate through names
+    let iterations = 0;
+    const maxIterations = 15;
+
+    const interval = setInterval(() => {
+        const randomName = namesList[Math.floor(Math.random() * namesList.length)];
+        result.innerText = randomName;
+        iterations++;
+
+        if (iterations >= maxIterations) {
+            clearInterval(interval);
+            const winner = namesList[Math.floor(Math.random() * namesList.length)];
+            result.innerText = `🎉 ${winner} 🎉`;
+            result.style.color = '#fbbf24';
+            if (window.haptics) window.haptics.success();
+            btn.disabled = false;
+        }
+    }, 100);
+};
+
+window.clearAllNames = function () {
+    if (confirm('Clear all names?')) {
+        namesList = [];
+        localStorage.setItem('sek_names', JSON.stringify(namesList));
+        renderNamesList();
+    }
+};
+
+// ==================== REACTION TIME TEST ====================
+let reactionStartTime = null;
+let reactionTimeout = null;
+let reactionState = 'waiting'; // waiting, ready, click, done
+
+function initReactionTest() {
+    const best = localStorage.getItem('reactionBest');
+    if (best) {
+        document.getElementById('reaction-best').innerText = best + 'ms';
+    }
+}
+
+window.startReactionTest = function () {
+    const box = document.getElementById('reaction-box');
+    const result = document.getElementById('reaction-result');
+
+    reactionState = 'waiting';
+    box.style.background = '#ef4444';
+    box.innerText = 'Wait for green...';
+    result.innerText = '';
+
+    // Random delay between 1-5 seconds
+    const delay = Math.random() * 4000 + 1000;
+
+    reactionTimeout = setTimeout(() => {
+        reactionState = 'ready';
+        box.style.background = '#10b981';
+        box.innerText = 'CLICK NOW!';
+        reactionStartTime = Date.now();
+    }, delay);
+};
+
+window.clickReactionBox = function () {
+    const box = document.getElementById('reaction-box');
+    const result = document.getElementById('reaction-result');
+
+    if (reactionState === 'waiting') {
+        // Clicked too early
+        clearTimeout(reactionTimeout);
+        box.style.background = '#f59e0b';
+        box.innerText = 'Too early! Click to try again';
+        result.innerText = 'You clicked before it turned green!';
+        reactionState = 'done';
+        if (window.haptics) window.haptics.error();
+    } else if (reactionState === 'ready') {
+        // Good click!
+        const reactionTime = Date.now() - reactionStartTime;
+        box.style.background = '#3b82f6';
+        box.innerText = reactionTime + 'ms';
+        result.innerText = getReactionMessage(reactionTime);
+
+        // Update best score
+        const best = localStorage.getItem('reactionBest');
+        if (!best || reactionTime < parseInt(best)) {
+            localStorage.setItem('reactionBest', reactionTime);
+            document.getElementById('reaction-best').innerText = reactionTime + 'ms';
+            result.innerText += ' 🏆 New Best!';
+        }
+
+        reactionState = 'done';
+        if (window.haptics) window.haptics.success();
+    } else if (reactionState === 'done') {
+        // Restart
+        startReactionTest();
+    }
+};
+
+function getReactionMessage(time) {
+    if (time < 200) return '⚡ Incredible! Are you a robot?';
+    if (time < 250) return '🔥 Amazing reflexes!';
+    if (time < 300) return '👍 Great reaction time!';
+    if (time < 400) return '😊 Good job!';
+    if (time < 500) return '🙂 Not bad!';
+    return '🐢 Keep practicing!';
+}
+
+// ==================== SIMON SAYS ====================
+let simonSequence = [];
+let simonPlayerIndex = 0;
+let simonScore = 0;
+let simonPlaying = false;
+let simonColors = ['red', 'blue', 'green', 'yellow'];
+
+function initSimonSays() {
+    const best = localStorage.getItem('simonBest');
+    if (best) document.getElementById('simon-best').innerText = best;
+}
+
+window.startSimon = function () {
+    simonSequence = [];
+    simonPlayerIndex = 0;
+    simonScore = 0;
+    simonPlaying = true;
+    document.getElementById('simon-score').innerText = '0';
+    document.getElementById('simon-status').innerText = 'Watch the pattern...';
+    addSimonStep();
+};
+
+function addSimonStep() {
+    const color = simonColors[Math.floor(Math.random() * 4)];
+    simonSequence.push(color);
+    simonPlayerIndex = 0;
+    playSimonSequence();
+}
+
+function playSimonSequence() {
+    simonPlaying = false;
+    document.getElementById('simon-status').innerText = 'Watch...';
+
+    let i = 0;
+    const interval = setInterval(() => {
+        if (i >= simonSequence.length) {
+            clearInterval(interval);
+            simonPlaying = true;
+            document.getElementById('simon-status').innerText = 'Your turn!';
+            return;
+        }
+
+        flashSimonButton(simonSequence[i]);
+        i++;
+    }, 600);
+}
+
+function flashSimonButton(color) {
+    const btn = document.getElementById('simon-' + color);
+    btn.style.filter = 'brightness(2)';
+    btn.style.transform = 'scale(1.1)';
+    if (window.haptics) window.haptics.light();
+
+    setTimeout(() => {
+        btn.style.filter = '';
+        btn.style.transform = '';
+    }, 300);
+}
+
+window.simonPress = function (color) {
+    if (!simonPlaying) return;
+
+    flashSimonButton(color);
+
+    if (color === simonSequence[simonPlayerIndex]) {
+        simonPlayerIndex++;
+
+        if (simonPlayerIndex === simonSequence.length) {
+            // Completed sequence
+            simonScore++;
+            document.getElementById('simon-score').innerText = simonScore;
+
+            const best = localStorage.getItem('simonBest');
+            if (!best || simonScore > parseInt(best)) {
+                localStorage.setItem('simonBest', simonScore);
+                document.getElementById('simon-best').innerText = simonScore;
+            }
+
+            if (window.haptics) window.haptics.success();
+            setTimeout(addSimonStep, 1000);
+        }
+    } else {
+        // Wrong!
+        simonPlaying = false;
+        document.getElementById('simon-status').innerText = `Game Over! Score: ${simonScore}`;
+        if (window.haptics) window.haptics.error();
+    }
+};

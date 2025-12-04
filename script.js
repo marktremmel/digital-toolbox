@@ -811,6 +811,216 @@ function getToolInterface(tool) {
                 <button onclick="translateText()" style="width: 100%; margin-bottom: 1rem;">Translate</button>
                 <textarea id="trans-output" readonly placeholder="Translation will appear here..." style="width: 100%; height: 100px; padding: 0.5rem; background: rgba(0,0,0,0.2); color: #fbbf24;"></textarea>
             </div>
+        `,
+        'json-viewer': `
+            <h2>💻 JSON Viewer/Editor</h2>
+            <div style="padding: 1rem;">
+                <div id="json-error" class="json-error"></div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
+                    <div class="json-pane">
+                        <label>Input JSON:</label>
+                        <textarea id="json-input" placeholder='{"key": "value"}' style="width: 100%; height: 250px; resize: none;"></textarea>
+                    </div>
+                    <div class="json-pane">
+                        <label>Formatted Output:</label>
+                        <pre id="json-output" style="width: 100%; height: 250px; overflow: auto; margin: 0;"></pre>
+                    </div>
+                </div>
+                <div style="display: flex; gap: 0.5rem; justify-content: center;">
+                    <button onclick="formatJson()">Prettify</button>
+                    <button onclick="minifyJson()">Minify</button>
+                    <button onclick="copyJson()">Copy</button>
+                </div>
+            </div>
+        `,
+        'memory-game': `
+            <h2>🎮 Memory Game</h2>
+            <div style="padding: 1rem; text-align: center;">
+                <div style="display: flex; justify-content: space-between; margin-bottom: 1rem;">
+                    <div>Moves: <span id="memory-moves" style="color: #fbbf24; font-weight: bold;">0</span></div>
+                    <div>Time: <span id="memory-time" style="color: #fbbf24; font-weight: bold;">0s</span></div>
+                    <div>Best: <span id="memory-best" style="color: #10b981; font-weight: bold;">--</span></div>
+                </div>
+                <div id="memory-grid" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.5rem; max-width: 400px; margin: 0 auto 1rem;"></div>
+                <button onclick="startMemoryGame()" style="padding: 1rem 2rem;">New Game</button>
+            </div>
+            <style>
+                .memory-card { aspect-ratio: 1; background: linear-gradient(135deg, #667eea, #764ba2); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 2rem; cursor: pointer; transition: transform 0.3s; }
+                .memory-card.flipped, .memory-card.matched { background: rgba(255,255,255,0.2); }
+                .memory-card.matched { opacity: 0.6; cursor: default; }
+            </style>
+        `,
+        'image-compressor': `
+            <h2>📸 Image Compressor</h2>
+            <div class="image-compressor">
+                <div class="compressor-workspace">
+                    <div class="upload-area" id="drop-zone-compress">
+                        <input type="file" id="compress-input" accept="image/png, image/jpeg" hidden>
+                        <div class="upload-content">
+                            <span class="upload-icon">📁</span>
+                            <h3>Click or Drag Image Here</h3>
+                            <p>Supports PNG, JPG (Max 10MB)</p>
+                        </div>
+                    </div>
+                    <div id="compress-editor" style="display: none;">
+                        <div class="preview-container">
+                            <div class="preview-box">
+                                <h4>Original</h4>
+                                <img id="compress-original" alt="Original" style="max-width: 100%; max-height: 200px;">
+                                <div id="compress-orig-size">0 KB</div>
+                            </div>
+                            <div class="preview-box" style="position: relative;">
+                                <h4>Compressed</h4>
+                                <img id="compress-result" alt="Compressed" style="max-width: 100%; max-height: 200px;">
+                                <div id="compress-new-size">0 KB</div>
+                                <div id="compress-savings" class="badge">-0%</div>
+                            </div>
+                        </div>
+                        <div class="controls-container">
+                            <div class="control-group">
+                                <label>Quality: <span id="compress-quality-val">80%</span></label>
+                                <input type="range" id="compress-quality" min="1" max="100" value="80" style="width: 100%;">
+                            </div>
+                            <div class="action-buttons">
+                                <button class="btn secondary" onclick="resetCompressor()">New Image</button>
+                                <button class="btn primary" id="compress-download" disabled>Download</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `,
+        'quiz-maker': `
+            <h2>❓ Quiz Maker</h2>
+            <div style="padding: 1rem;">
+                <div id="quiz-list">
+                    <!-- Quiz list will be rendered here -->
+                </div>
+                <button onclick="showCreateQuiz()" style="margin-top: 1rem;">+ Create New Quiz</button>
+                
+                <div id="quiz-create-form" style="display: none;">
+                    <input type="text" id="quiz-title" placeholder="Quiz Title" style="width: 100%; padding: 0.5rem; margin-bottom: 1rem;">
+                    <div id="quiz-questions-editor"></div>
+                    <div style="display: flex; gap: 0.5rem; margin-top: 1rem;">
+                        <button onclick="addQuestion()">+ Question</button>
+                        <button onclick="saveQuiz()" style="background: #10b981;">Save Quiz</button>
+                        <button onclick="backToQuizList()" style="background: #ef4444;">Cancel</button>
+                    </div>
+                </div>
+                
+                <div id="quiz-take-area" style="display: none;"></div>
+            </div>
+        `,
+        'random-name-picker': `
+            <h2>🎲 Random Name Picker</h2>
+            <div style="padding: 1rem; text-align: center;">
+                <div id="picked-name" style="font-size: 2rem; font-weight: bold; padding: 2rem; background: rgba(0,0,0,0.2); border-radius: 12px; margin-bottom: 1rem; min-height: 80px;">Click Pick!</div>
+                <button id="pick-btn" onclick="pickRandomName()" style="padding: 1rem 3rem; font-size: 1.2rem; margin-bottom: 2rem;">🎯 PICK</button>
+                
+                <div id="names-list" style="margin-bottom: 1rem; min-height: 50px; text-align: left; background: rgba(0,0,0,0.1); padding: 0.5rem; border-radius: 8px;"></div>
+                
+                <div style="display: flex; gap: 0.5rem;">
+                    <input type="text" id="name-input" placeholder="Enter a name..." style="flex: 1; padding: 0.5rem;">
+                    <button onclick="addName()">Add</button>
+                    <button onclick="clearAllNames()" style="background: #ef4444;">Clear All</button>
+                </div>
+            </div>
+        `,
+        'citation-generator': `
+            <h2>📚 Citation Generator</h2>
+            <div style="padding: 1rem;">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; margin-bottom: 1rem;">
+                    <select id="citation-type" style="padding: 0.5rem;">
+                        <option value="book">Book</option>
+                        <option value="article">Journal Article</option>
+                        <option value="website">Website</option>
+                    </select>
+                    <select id="citation-style" style="padding: 0.5rem;">
+                        <option value="apa">APA (7th)</option>
+                        <option value="mla">MLA (9th)</option>
+                        <option value="ieee">IEEE</option>
+                        <option value="chicago">Chicago</option>
+                    </select>
+                </div>
+                <div id="citation-fields" style="margin-bottom: 1rem;"></div>
+                <button onclick="generateCitation()" style="width: 100%; margin-bottom: 1rem;">Generate Citation</button>
+                <div id="citation-output" style="padding: 1rem; background: rgba(0,0,0,0.2); border-radius: 8px; min-height: 50px; font-family: serif;"></div>
+                <button onclick="copyCitation()" style="width: 100%; margin-top: 0.5rem;">Copy Citation</button>
+            </div>
+        `,
+        'regex-tester': `
+            <h2>🔍 Regex Tester</h2>
+            <div style="padding: 1rem;">
+                <div style="margin-bottom: 1rem;">
+                    <label style="display: block; margin-bottom: 0.25rem;">Pattern:</label>
+                    <div style="display: flex; gap: 0.5rem;">
+                        <span style="padding: 0.5rem; background: rgba(0,0,0,0.2); border-radius: 4px 0 0 4px;">/</span>
+                        <input type="text" id="regex-pattern" placeholder="your pattern here" style="flex: 1; padding: 0.5rem;">
+                        <span style="padding: 0.5rem; background: rgba(0,0,0,0.2);">/</span>
+                        <input type="text" id="regex-flags" value="g" placeholder="flags" style="width: 50px; padding: 0.5rem; border-radius: 0 4px 4px 0;">
+                    </div>
+                </div>
+                <div style="margin-bottom: 1rem;">
+                    <label style="display: block; margin-bottom: 0.25rem;">Test String:</label>
+                    <textarea id="regex-input" placeholder="Enter text to test..." style="width: 100%; height: 100px; padding: 0.5rem;"></textarea>
+                </div>
+                <div style="margin-bottom: 1rem;">
+                    <label style="display: block; margin-bottom: 0.25rem;">Result:</label>
+                    <div id="regex-output" style="padding: 1rem; background: rgba(0,0,0,0.2); border-radius: 8px; min-height: 50px; white-space: pre-wrap;"></div>
+                </div>
+                <div id="regex-matches" style="font-size: 0.9rem; opacity: 0.8;"></div>
+            </div>
+        `,
+        'code-beautifier': `
+            <h2>✨ Code Beautifier</h2>
+            <div style="padding: 1rem;">
+                <select id="beautify-lang" style="width: 100%; padding: 0.5rem; margin-bottom: 1rem;">
+                    <option value="html">HTML</option>
+                    <option value="css">CSS</option>
+                    <option value="js">JavaScript</option>
+                </select>
+                <textarea id="beautify-input" placeholder="Paste your code here..." style="width: 100%; height: 120px; padding: 0.5rem; font-family: monospace; margin-bottom: 0.5rem;"></textarea>
+                <button onclick="beautifyCode()" style="width: 100%; margin-bottom: 0.5rem;">Beautify Code</button>
+                <textarea id="beautify-output" readonly placeholder="Formatted code..." style="width: 100%; height: 120px; padding: 0.5rem; font-family: monospace; background: rgba(0,0,0,0.2);"></textarea>
+                <button onclick="copyBeautified()" style="width: 100%; margin-top: 0.5rem;">Copy Result</button>
+            </div>
+        `,
+        'grade-calculator': `
+            <h2>📊 Grade Calculator</h2>
+            <div style="padding: 1rem;">
+                <div id="grade-rows"></div>
+                <button onclick="addGradeRow()" style="margin-bottom: 1rem;">+ Add Subject</button>
+                <div style="text-align: center; padding: 1.5rem; background: rgba(0,0,0,0.2); border-radius: 12px;">
+                    <div style="opacity: 0.7; margin-bottom: 0.5rem;">Weighted Average</div>
+                    <div id="grade-result" style="font-size: 2.5rem; font-weight: bold;">--</div>
+                </div>
+            </div>
+        `,
+        'reaction-test': `
+            <h2>⚡ Reaction Time Test</h2>
+            <div style="padding: 1rem; text-align: center;">
+                <div style="margin-bottom: 1rem;">
+                    <span style="opacity: 0.7;">Best Time: </span>
+                    <span id="reaction-best">--</span>
+                </div>
+                <div id="reaction-box" onclick="clickReactionBox()" style="padding: 4rem 2rem; background: #3b82f6; border-radius: 12px; cursor: pointer; font-size: 1.5rem; user-select: none;">
+                    Click to Start
+                </div>
+                <div id="reaction-result" style="margin-top: 1rem; font-size: 1.2rem;"></div>
+                <button onclick="startReactionTest()" style="margin-top: 1rem;">Start Test</button>
+            </div>
+        `,
+        'diff-checker': `
+            <h2>📝 Diff Checker</h2>
+            <div style="padding: 1rem;">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; margin-bottom: 0.5rem;">
+                    <textarea id="diff-text1" placeholder="Original text..." style="height: 100px; padding: 0.5rem; font-family: monospace;"></textarea>
+                    <textarea id="diff-text2" placeholder="Modified text..." style="height: 100px; padding: 0.5rem; font-family: monospace;"></textarea>
+                </div>
+                <button onclick="compareDiff()" style="width: 100%; margin-bottom: 0.5rem;">Compare</button>
+                <div id="diff-stats" style="text-align: center; margin-bottom: 0.5rem;"></div>
+                <div id="diff-output" style="padding: 0.5rem; background: rgba(0,0,0,0.2); border-radius: 8px; font-family: monospace; font-size: 0.9rem; max-height: 200px; overflow-y: auto;"></div>
+            </div>
         `
     };
 
@@ -905,6 +1115,39 @@ function initializeTool(tool) {
             break;
         case 'translator':
             initTranslator();
+            break;
+        case 'json-viewer':
+            initJsonViewer();
+            break;
+        case 'memory-game':
+            initMemoryGame();
+            break;
+        case 'image-compressor':
+            initImageCompressor();
+            break;
+        case 'quiz-maker':
+            initQuizMaker();
+            break;
+        case 'random-name-picker':
+            initRandomNamePicker();
+            break;
+        case 'citation-generator':
+            initCitationGenerator();
+            break;
+        case 'regex-tester':
+            initRegexTester();
+            break;
+        case 'code-beautifier':
+            initCodeBeautifier();
+            break;
+        case 'grade-calculator':
+            initGradeCalculator();
+            break;
+        case 'reaction-test':
+            initReactionTest();
+            break;
+        case 'diff-checker':
+            initDiffChecker();
             break;
     }
 }

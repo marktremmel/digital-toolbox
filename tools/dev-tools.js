@@ -425,3 +425,33 @@ function escapeHtml(text) {
     div.textContent = text;
     return div.innerHTML;
 }
+
+// ==================== HEX CONVERTER ====================
+function initHexConverter() {
+    const decInput = document.getElementById('dec-input');
+    const hexInput = document.getElementById('hex-input');
+
+    if (decInput && hexInput) {
+        decInput.addEventListener('input', () => {
+            const val = parseInt(decInput.value);
+            if (!isNaN(val)) {
+                hexInput.value = val.toString(16).toUpperCase();
+            } else {
+                hexInput.value = '';
+            }
+        });
+
+        hexInput.addEventListener('input', () => {
+            const val = hexInput.value;
+            // Check if valid hex
+            if (/^[0-9A-Fa-f]+$/.test(val)) {
+                const dec = parseInt(val, 16);
+                if (!isNaN(dec)) {
+                    decInput.value = dec;
+                }
+            } else if (val === '') {
+                decInput.value = '';
+            }
+        });
+    }
+}

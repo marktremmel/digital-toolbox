@@ -812,3 +812,151 @@ function showNotification(message) {
     // Fallback: alert
     alert(message);
 }
+
+// ==================== SOUND MONITOR ====================
+let audioContext = null;
+let analyser = null;
+let microphone = null;
+let monitoring = false;
+let monitorInterval = null;
+let mosquitoOscillator = null;
+// Use explicit window context for these to ensure global access if needed
+window.mosquitoOscillator = null;
+
+function initializeSoundMonitor() {
+    const thresholdInput = document.getElementById('sound-threshold');
+    const thresholdVal = document.getElementById('sound-threshold-val');
+
+    if (thresholdInput) {
+        thresholdInput.addEventListener('input', (e) => {
+            thresholdVal.textContent = e.target.value;
+            const marker = document.getElementById('sound-meter-threshold-marker');
+            if (marker) marker.style.left = e.target.value + '%';
+        });
+    }
+}
+
+function toggleSoundMonitor() {
+    const btn = document.getElementById('sound-monitor-toggle');
+    if (monitoring) {
+        stopMonitoring();
+        if (btn) btn.textContent = 'Start Monitoring';
+    } else {
+        startMonitoring();
+        if (btn) btn.textContent = 'Stop Monitoring';
+    }
+}
+
+async function startMonitoring() {
+    try {
+        if (!audioContext) {
+            audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        } else if (audioContext.state === 'suspended') {
+            await audioContext.resume();
+        }
+
+        const stream = await navigator.mediaDevices.getUserMedia({ audio: true, video: false });
+        microphone = audioContext.createMediaStreamSource(stream);
+        analyser = audioContext.createAnalyser();
+        analyser.fftSize = 256;
+        microphone.connect(analyser);
+
+        monitoring = true;
+        monitorLoop();
+
+        console.log('Sound monitoring started');
+
+    } catch (err) {
+        console.error('Error accessing microphone:', err);
+        alert('Error accessing microphone (check permissions)');
+    }
+}
+
+function stopMonitoring() {
+    monitoring = false;
+    if (monitorInterval) cancelAnimationFrame(monitorInterval);
+    if (microphone) {
+        microphone.disconnect();
+    }
+    const fill = document.getElementById('sound-meter-fill');
+    if (fill) fill.style.width = '0%';
+
+    const overlay = document.getElementById('sound-warning-overlay');
+    if (overlay) overlay.style.display = 'none';
+
+    stopMosquitoSound();
+}
+
+function monitorLoop() {
+    if (!monitoring) return;
+
+    const bufferLength = analyser.frequencyBinCount;
+    const dataArray = new Uint8Array(bufferLength);
+    analyser.getByteFrequencyData(dataArray);
+
+    let sum = 0;
+    for (let i = 0; i < bufferLength; i++) {
+        sum += dataArray[i];
+    }
+    const average = sum / bufferLength;
+    // Normalize roughly (average of 255 is max)
+    const volume = Math.min(100, Math.round((average / 100) * 100));
+
+    const fill = document.getElementById('sound-meter-fill');
+    if (fill) fill.style.width = volume + '%';
+
+    const thresholdInput = document.getElementById('sound-threshold');
+    const threshold = thresholdInput ? parseInt(thresholdInput.value) : 50;
+
+    const overlay = document.getElementById('sound-warning-overlay');
+    const mosquitoMode = document.getElementById('mosquito-mode');
+    const mosquitoActive = mosquitoMode ? mosquitoMode.checked : false;
+
+    if (volume > threshold) {
+        if (overlay && overlay.style.display !== 'block') {
+            overlay.style.display = 'block';
+        }
+
+        // Sync sound state
+        if (mosquitoActive) {
+            if (!window.mosquitoOscillator) playMosquitoSound();
+        } else {
+            if (window.mosquitoOscillator) stopMosquitoSound();
+        }
+    } else {
+        if (overlay && overlay.style.display !== 'none') {
+            overlay.style.display = 'none';
+        }
+        stopMosquitoSound();
+    }
+
+    monitorInterval = requestAnimationFrame(monitorLoop);
+}
+
+function playMosquitoSound() {
+    if (window.mosquitoOscillator) return;
+    if (!audioContext) return;
+
+    window.mosquitoOscillator = audioContext.createOscillator();
+    const gainNode = audioContext.createGain();
+
+    window.mosquitoOscillator.type = 'sine';
+    window.mosquitoOscillator.frequency.value = 17400; // ~17.4kHz is typical "mosquito"
+
+    window.mosquitoOscillator.connect(gainNode);
+    gainNode.connect(audioContext.destination);
+
+    gainNode.gain.value = 0.5;
+
+    window.mosquitoOscillator.start();
+}
+
+function stopMosquitoSound() {
+    if (window.mosquitoOscillator) {
+        try {
+            window.mosquitoOscillator.stop();
+            window.mosquitoOscillator.disconnect();
+        } catch (e) { }
+        window.mosquitoOscillator = null;
+    }
+}

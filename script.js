@@ -1021,6 +1021,51 @@ function getToolInterface(tool) {
                 <div id="diff-stats" style="text-align: center; margin-bottom: 0.5rem;"></div>
                 <div id="diff-output" style="padding: 0.5rem; background: rgba(0,0,0,0.2); border-radius: 8px; font-family: monospace; font-size: 0.9rem; max-height: 200px; overflow-y: auto;"></div>
             </div>
+        `,
+        'sound-monitor': `
+            <h2>🎤 Sound Monitor</h2>
+            <div style="padding: 2rem; text-align: center;">
+                <div id="sound-meter-container" style="width: 100%; height: 30px; background: rgba(255,255,255,0.1); border-radius: 15px; overflow: hidden; margin-bottom: 2rem; position: relative;">
+                    <div id="sound-meter-fill" style="width: 0%; height: 100%; background: linear-gradient(90deg, #10b981, #fbbf24, #ef4444); transition: width 0.1s;"></div>
+                    <div id="sound-meter-threshold-marker" style="position: absolute; top: 0; bottom: 0; width: 4px; background: white; left: 50%;"></div>
+                </div>
+                
+                <div style="display: flex; gap: 2rem; justify-content: center; align-items: center; margin-bottom: 2rem;">
+                    <div style="flex: 1;">
+                        <label>Threshold: <span id="sound-threshold-val">50</span>%</label>
+                        <input type="range" id="sound-threshold" min="0" max="100" value="50" style="width: 100%;">
+                    </div>
+                </div>
+
+                <div style="display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center;">
+                    <button id="sound-monitor-toggle" onclick="toggleSoundMonitor()">Start Monitoring</button>
+                    <label class="glass-card" style="padding: 1rem; display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                        <input type="checkbox" id="mosquito-mode"> 
+                        <span>Mosquito Tone (17kHz)</span>
+                    </label>
+                </div>
+
+                <div id="sound-warning-overlay" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(255, 0, 0, 0.5); z-index: 9999; pointer-events: none; display: none; animation: blink 0.5s infinite;"></div>
+                <style>
+                    @keyframes blink { 0% { opacity: 0.5; } 50% { opacity: 0; } 100% { opacity: 0.5; } }
+                </style>
+            </div>
+        `,
+        'hex-converter': `
+            <h2>🔢 Decimal <-> Hex Converter</h2>
+            <div style="padding: 2rem;">
+                <div style="display: grid; gap: 1rem; margin-bottom: 1rem;">
+                    <div>
+                        <label>Decimal:</label>
+                        <input type="number" id="dec-input" placeholder="e.g. 255" style="width: 100%; padding: 0.5rem; font-family: monospace;">
+                    </div>
+                    <div>
+                        <label>Hexadecimal:</label>
+                        <input type="text" id="hex-input" placeholder="e.g. FF" style="width: 100%; padding: 0.5rem; font-family: monospace;">
+                    </div>
+                </div>
+                <p style="opacity: 0.7; font-size: 0.9rem;">Type in either field to convert instantly.</p>
+            </div>
         `
     };
 
@@ -1148,6 +1193,12 @@ function initializeTool(tool) {
             break;
         case 'diff-checker':
             initDiffChecker();
+            break;
+        case 'sound-monitor':
+            initializeSoundMonitor();
+            break;
+        case 'hex-converter':
+            initHexConverter();
             break;
     }
 }
